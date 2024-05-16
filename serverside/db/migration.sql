@@ -2,7 +2,7 @@ BEGIN;
 
 SET CLIENT_ENCODING TO 'UTF-8';
 
-DROP TABLE IF EXISTS "user", "role", "comment", "recipe", "ingredient", "category", "work", "tag", "proportion", "favorite", "ingredient_has_recipe", "ingredient_has_proportion", "recipe_has_tag", "recipe_has_category" CASCADE;
+DROP TABLE IF EXISTS "user", "role", "comment", "recipe", "ingredient", "category", "work", "tag", "proportion", "favorite", "recipe_has_ingredient", "ingredient_has_proportion", "recipe_has_tag", "recipe_has_category" CASCADE;
 
 CREATE TABLE "category" (
    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -96,7 +96,7 @@ CREATE TABLE "recipe_has_category" (
    "updatedAt" TIMESTAMPTZ
 );
 
-CREATE TABLE "ingredient_has_recipe" (
+CREATE TABLE "recipe_has_ingredient" (
    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
    "ingredient_id" INTEGER REFERENCES "ingredient"("id") NOT NULL,
    "recipe_id" INTEGER REFERENCES "recipe"("id") NOT NULL,

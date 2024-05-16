@@ -1,4 +1,4 @@
-import {Category, Recipe, Work} from "../../Models/index.js";
+import {Category, Recipe, Work} from "../Models/index.js";
 
 const getAllCategories = async (req, res) => {
     try {
@@ -78,4 +78,4 @@ const deleteCategory = async (req, res) => {
     }
 };
 
-export default { getAllCategories, getOneCategory, updateCategory, createCategory, deleteCategory };
+export { getAllCategories, getOneCategory, updateCategory, createCategory, deleteCategory };

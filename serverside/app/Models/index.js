@@ -3,7 +3,7 @@ import Role from "./Role.js";
 import Recipe from "./Recipe.js";
 import Work from "./Work.js";
 import Comment from "./Comment.js"
-import Category from "./Category/Category.js";
+import Category from "./Category.js";
 import Ingredient from "./Ingredient.js";
 import Proportion from "./Proportion.js";
 import Tag from "./Tag.js";

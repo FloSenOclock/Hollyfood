@@ -2,7 +2,7 @@ BEGIN;
 
 SET CLIENT_ENCODING TO 'UTF-8';
 
-TRUNCATE "user", "role", "comment", "recipe", "ingredient", "category", "work", "tag", "proportion", "favorite", "ingredient_has_recipe", "ingredient_has_proportion", "recipe_has_tag", "recipe_has_category" CASCADE;
+TRUNCATE "user", "role", "comment", "recipe", "ingredient", "category", "work", "tag", "proportion", "favorite", "recipe_has_ingredient", "ingredient_has_proportion", "recipe_has_tag", "recipe_has_category" CASCADE;
 
 INSERT INTO "category"
   ("name")
@@ -71,7 +71,7 @@ VALUES
   (3, 1),
   (4, 2);
   
-INSERT INTO "ingredient_has_recipe"
+INSERT INTO "recipe_has_ingredient"
   ( "ingredient_id", "recipe_id")
 VALUES
   (1, 1);
