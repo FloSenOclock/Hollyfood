@@ -46,7 +46,7 @@ const Subform = () => {
             if (emailvalidator.validate(credentials.email)) {
                 try {
                     // Vérifier si l'e-mail existe déjà
-                    const emailExists = await checkEmailExists(credentials.email);
+                    const emailExists = await checkEmailExists(credentials.email.toLowerCase());
                     console.log(!emailExists);
 
                     // Si l'email n'existe pas

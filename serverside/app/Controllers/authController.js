@@ -55,7 +55,7 @@ const authController = {
             const user = await User.create({
                 name,
                 firstname,
-                email,
+                email: email.toLowerCase(),
                 password
             });
     

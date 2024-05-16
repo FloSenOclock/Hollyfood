@@ -1,6 +1,6 @@
 import {Model, DataTypes} from 'sequelize';
-
 import sequelize from '../database.js';
+
 
 class User extends Model {}
 
@@ -26,7 +26,7 @@ User.init({
         unique: true,
         validate: {
             isEmail: true
-        }
+        },
     },
 
     password: {
@@ -38,4 +38,6 @@ User.init({
     modelName: "User",
     tableName: "user"
 });
+
+
 export default User;

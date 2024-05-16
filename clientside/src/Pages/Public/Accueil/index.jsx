@@ -2,17 +2,16 @@ import React, { useEffect, useState } from 'react';
 import Carrousel from "../../../Components/public/carrousel";
 import RandomCarrousel from "../../../Components/public/randomCarrousel";
 import {boxOfficeSort, lastReleaseSort, randomSort} from "../../../Utils/sortFunction";
+import apiFetch from "../../../Utils/apiFetch";
 
 const Home = () => {   
   const [recipes, setRecipes] = useState([]);
   
   const getRecipes = async () => {
     try {
-      const url = "http://localhost:3000/api";
-      const response = await fetch(url);
-      const data = await response.json();
+      const data = await apiFetch('recettes', {}, 'GET'); 
       setRecipes(data.recipes);
-      console.log(data.recipes);
+ 
     } catch (error) {
       console.error(error);
     }

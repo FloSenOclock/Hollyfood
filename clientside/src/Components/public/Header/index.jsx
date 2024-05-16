@@ -1,9 +1,17 @@
-// import Logo from '../../Asset/Logo.png';
-// import LogoProfil from '../../Asset/LogoProfil.png';
-
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
+
+  const token = localStorage.getItem('token');
+  const navigate=useNavigate();
+
+  const handleDeconnexion = () => {
+    navigate('/accueil');
+    localStorage.removeItem('token');
+    window.location.reload();
+  }
+
   return (
     <header className="bg-slate-300 text-center ">
       {/* Logo du site */}
@@ -18,12 +26,19 @@ const Header = () => {
         <button type="submit">Rechercher</button>
       </div>
       {/* Lien vers la page de connexion avec Logo de Profil */}
-      <div className="">
-        <Link to="/inscription">Inscription</Link>
-        <Link to="/connexion">
-          <img src="/" alt="Bouton de connexion au profil" />
-        </Link>
-      </div>
+      <div>
+        {token ?
+              (<>
+              <Link className="mx-4" onClick={handleDeconnexion}>Déconnexion</Link>
+              <Link className="mx-4" to="/profil">Profil</Link>
+              </>) 
+              : 
+              (<>
+              <Link className="mx-4" to="/inscription">Inscription</Link>
+              <Link className="mx-4" to="/connexion">Connexion</Link>
+              </>)}
+        </div>
+      
       {/* Barre de navigation */}
       <nav className="">
         <ul>
@@ -31,10 +46,10 @@ const Header = () => {
             <Link to="/recettes">Recettes</Link>
           </li>
           <li>
-            <Link to="/recettes">Films</Link>
+            <Link to="/recettes/film">Films</Link>
           </li>
           <li>
-            <Link to="/recettes">Séries</Link>
+            <Link to="/recettes/serie">Séries</Link>
           </li>
         </ul>
       </nav>

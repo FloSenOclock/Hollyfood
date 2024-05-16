@@ -48,9 +48,10 @@ Recipe.init({
         type: DataTypes.INTEGER,
         allowNull: true
     },
+
 }, {
     sequelize,
-    modelName: "Recipe",
-    tableName: "recipe"
+    modelName: 'Recipe',
+    tableName: 'recipe'
 });
 export default Recipe;

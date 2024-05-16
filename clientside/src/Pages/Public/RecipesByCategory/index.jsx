@@ -3,25 +3,28 @@ import SortForm from "../../../Components/public/sortForm";
 import Carrousel from "../../../Components/public/carrousel";
 import apiFetch from "../../../Utils/apiFetch";
 import {boxOfficeSort} from "../../../Utils/sortFunction";
+import { useParams } from 'react-router-dom';
 
 
-const Recipes = () =>  {
+
+const RecipesByCategory = () =>  {
 
     const [recipes, setRecipes] = useState([]);
+    const { category } = useParams();
   
-    const getRecipes = async () => {
+    const getRecipesByCategory = async () => {
       try {
-        const data = await apiFetch('recettes', {}, 'GET'); 
-        setRecipes(data.recipes);
-   
+        const data = await apiFetch(`category/${category}/`, {}, 'GET'); 
+        setRecipes(data.category.Recipes);
+        console.log(data.category.Recipes);
       } catch (error) {
         console.error(error);
       }
     };
   
     useEffect(() => {
-      getRecipes();
-    }, []);
+      getRecipesByCategory();
+    }, [category]);
 
 
     return (
@@ -33,4 +36,4 @@ const Recipes = () =>  {
 };
 
 
-export default Recipes;
+export default RecipesByCategory;

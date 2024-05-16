@@ -16,7 +16,7 @@ Work.init({
     },
 }, {
     sequelize,
-    modelName: "Work",
-    tableName: "work"
+    modelName: 'Work',
+    tableName: 'work'
 });
 export default Work;

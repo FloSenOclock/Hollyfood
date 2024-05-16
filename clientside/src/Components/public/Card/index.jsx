@@ -19,7 +19,7 @@ const Card = ({score, picture, name, difficulty, slug}) => {
         <p>{difficulty}</p>
     </div>
     <div>
-        <Link to={`/recipe/${slug}`}>Détail</Link>
+        <Link to={`/recette/${slug}`}>Détail</Link>
     </div>
 </article>
 </div>

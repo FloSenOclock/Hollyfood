@@ -3,6 +3,7 @@ import FavCarrousel from "../../../Components/public/favCarrousel";
 import apiFetch from '../../../Utils/apiFetch';
 
 
+
 const Profile = () => {
 
     const [recipes, setRecipes] = useState([]);
@@ -27,14 +28,7 @@ const Profile = () => {
   
     const getUser = async () => {
       try {
-        const url = "http://localhost:3000/api/profil";
-        const token = localStorage.getItem('token');  
-        const response = await fetch(url, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        const data = await response.json();        
+        const data = await apiFetch('profil', {}, 'GET');        
         setUser(data.profil);
       } catch (error) {
         console.error(error);
@@ -60,7 +54,7 @@ return (
             <p>{user.email}</p>
         </div>
     </section>
-    <FavCarrousel recipes={recipes} className="align-center" />
+    <FavCarrousel recipes={recipes} />
         
     </>
 )

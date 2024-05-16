@@ -1,21 +1,26 @@
-const apiFetch = async (path, body= {}, method = 'GET') => {
+const apiFetch = async (path, body = undefined, method = 'GET') => {
+  const token = localStorage.getItem('token') || null;
 
-    const token =   localStorage.getItem('token') || null;
+  // Détermine si une requête nécessite un corps de requête ou non
+  const options = {
+    method,
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  };
 
-    const response = await fetch(`http://localhost:3000/api/${path}`, { 
-        method,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      });
-      
-      if (!response.ok) {
-        throw new Error('Erreur lors de la connexion');
-      }
+  if (method !== 'GET') {
+    options.body = JSON.stringify(body);
+  }
 
-      return  await response.json();
+  const response = await fetch(`http://localhost:3000/api/${path}`, options);
+
+  if (!response.ok) {
+    throw new Error('Erreur lors de la connexion');
+  }
+
+  return await response.json();
 }
 
 export default apiFetch;

@@ -12,6 +12,7 @@ import LegalMention from '../Pages/Public/Legal';
 import SiteMap from '../Pages/Public/SiteMap';
 import Profile from '../Pages/Public/Profil';
 import Recipes from '../Pages/Public/Recipes';
+import RecipesByCategory from '../Pages/Public/RecipesByCategory';
 import OneRecipe from '../Pages/Public/Recipe';
 import NotFound from '../Pages/Public/404';
 
@@ -30,6 +31,7 @@ const PublicRouter = () => {
           <Route path="/plandusite" element={<SiteMap />} />
           <Route path="/profil" element={<Profile />} />
           <Route path="/recettes" element={<Recipes />} />
+          <Route path="/recettes/:category" element={<RecipesByCategory />} />
           <Route path="/recette/:slug" element={<OneRecipe />} />
 
           <Route path="*" element={<NotFound />} />

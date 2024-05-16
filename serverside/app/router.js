@@ -3,6 +3,7 @@ import express from 'express';
 import mainController from './Controllers/mainController.js';
 import recipeController from './Controllers/recipeController.js';
 import authController from './Controllers/authController.js';
+import categoryController from './Controllers/categoryController.js';
 // import cors from 'cors';
 // import adminController from './Controllers/adminController.js';
 import profilController from './Controllers/profilController.js'
@@ -20,7 +21,7 @@ const router = express.Router();
 
 
 // Route pour la page d'accueil
-router.get('/', mainController.home);
+router.get('/',mainController.home);
 
 // Route pour afficher toutes les recettes
 router.get('/recettes', recipeController.list); 
@@ -31,12 +32,10 @@ router.get('/recettes', recipeController.list);
   
   
 
-// Route pour afficher une page film
-// router.get('/films', recipeController.filmsList);
+// Route pour afficher une page film/serie
+router.get('/category/:name', categoryController.getOneCategory);
 
 
-// Route pour afficher une page serie
-// router.get('/series', recipeController.tvshowList);
 
 // Route pour afficher la page profil
 router.get('/profil', jwt, profilController.profil);

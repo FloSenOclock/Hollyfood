@@ -7,7 +7,8 @@ TRUNCATE "user", "role", "comment", "recipe", "ingredient", "category", "work", 
 INSERT INTO "category"
   ("name")
 VALUES
-  ('Films');
+  ('film'),
+  ('serie');
   
 INSERT INTO "ingredient"
   ("name")
@@ -15,12 +16,12 @@ VALUES
   ('Tomates');
 
 INSERT INTO "work"
-  ("title", "synopsis")
+  ("title", "synopsis", "category_id")
 VALUES
-  ('Garfield', 'Un chat ...'),
-  ('La Princesse et la Grenouille', 'Disney ...'),
-  ('Star Wars', 'Film de science-fantasie ...'),
-  ('Once Upon A Time', 'Univers Fantastique ...');
+  ('Garfield', 'Un chat ...',1),
+  ('La Princesse et la Grenouille', 'Disney ...',1),
+  ('Star Wars', 'Film de science-fantasie ...',1),
+  ('Once Upon A Time', 'Univers Fantastique ...',2);
 
 
 
@@ -65,7 +66,10 @@ VALUES
 INSERT INTO "recipe_has_category"
   ( "recipe_id", "category_id")
 VALUES
-  (1, 1);
+  (1, 1),
+  (2, 1),
+  (3, 1),
+  (4, 2);
   
 INSERT INTO "ingredient_has_recipe"
   ( "ingredient_id", "recipe_id")
