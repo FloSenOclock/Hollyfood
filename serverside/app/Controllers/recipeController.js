@@ -1,15 +1,23 @@
-import Recipe from "../models/Recipe.js";
+import { Recipe, Ingredient,Work} from "../Models/index.js";
 
 const recipeController = {
 
   async list(req, res) {
     
     try {
-      // Je recupere la liste de toutes les recettes
-      const recipes = await Recipe.findAll();
-      res.json({
-        recipes: recipes
+   
+      const recipes = await Recipe.findAll({  // Je recupere la liste de toutes les recettes
+        include: [{
+          model: Work,
+          as: 'work'
+          },
+          {
+            model: Ingredient,
+            through: 'recipe_has_ingredient'
+          }
+        ],
       });
+      res.json({recipes});
     } catch (error) {
       res.status(404).json({ message: 'Recipes not found' });
     }

@@ -14,7 +14,7 @@ const apiFetch = async (path, body = undefined, method = 'GET') => {
     options.body = JSON.stringify(body);
   }
 
-  const response = await fetch(`http://localhost:3000/api/${path}`, options);
+  const response = await fetch( `http://localhost:3000/api/${path}`, options);
 
   if (!response.ok) {
     throw new Error('Erreur lors de la connexion');

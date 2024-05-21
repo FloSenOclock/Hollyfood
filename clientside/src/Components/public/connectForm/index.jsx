@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import apiFetch from '../../../Utils/apiFetch';
 
 const ConnectForm = () => {
@@ -49,7 +49,9 @@ return (
                 <input type="password" name="password" id="password" required value={credentials.password} onChange={onChange}/>
         
             </div>
-            <a href="/">Mot de passe oublié ?</a>
+            <div>
+            <Link to="/mdp-oublie">Mot de passe oublié ?</Link>
+            </div>
             <button>Valider</button>
         </form>
     </div>

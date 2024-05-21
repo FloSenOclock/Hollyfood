@@ -14,6 +14,7 @@ const Carrousel = ({recipes, sortFunction}) => {
                       score={recipe.score}
                       picture={recipe.picture}
                       name={recipe.name}
+                      workTitle={recipe.work.title}
                       difficulty={recipe.difficulty}
                       slug={recipe.slug}      
                       />

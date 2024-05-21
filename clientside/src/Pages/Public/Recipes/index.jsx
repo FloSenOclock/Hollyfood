@@ -5,9 +5,8 @@ import apiFetch from "../../../Utils/apiFetch";
 import {boxOfficeSort} from "../../../Utils/sortFunction";
 
 
-const Recipes = () =>  {
+const Recipes = ({recipes, setRecipes}) =>  {
 
-    const [recipes, setRecipes] = useState([]);
   
     const getRecipes = async () => {
       try {

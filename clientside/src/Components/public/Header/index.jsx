@@ -1,7 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import SearchBar from "../searchForm";
 
-const Header = () => {
+const Header = ({setSearch, search, setRecipesList}) => {
 
   const token = localStorage.getItem('token');
   const navigate=useNavigate();
@@ -12,6 +13,8 @@ const Header = () => {
     window.location.reload();
   }
 
+   // champs vide à l'état initial
+
   return (
     <header className="bg-slate-300 text-center ">
       {/* Logo du site */}
@@ -21,10 +24,7 @@ const Header = () => {
         </Link>
       </div>
       {/* Barre de recherche */}
-      <div className="">
-        <input type="text" placeholder="Recherche par Films, Séries,..." />
-        <button type="submit">Rechercher</button>
-      </div>
+        <SearchBar  setSearch={setSearch} search={search} setRecipesList={setRecipesList} />
       {/* Lien vers la page de connexion avec Logo de Profil */}
       <div>
         {token ?

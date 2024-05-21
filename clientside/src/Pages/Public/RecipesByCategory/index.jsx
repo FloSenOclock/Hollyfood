@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import SortForm from "../../../Components/public/sortForm";
 import Carrousel from "../../../Components/public/carrousel";
 import apiFetch from "../../../Utils/apiFetch";
@@ -7,16 +7,14 @@ import { useParams } from 'react-router-dom';
 
 
 
-const RecipesByCategory = () =>  {
+const RecipesByCategory = ({recipes, setRecipes}) =>  {
 
-    const [recipes, setRecipes] = useState([]);
     const { category } = useParams();
   
     const getRecipesByCategory = async () => {
       try {
-        const data = await apiFetch(`category/${category}/`, {}, 'GET'); 
+        const data = await apiFetch(`recettes/${category}`,{}, 'GET'); 
         setRecipes(data.category.Recipes);
-        console.log(data.category.Recipes);
       } catch (error) {
         console.error(error);
       }

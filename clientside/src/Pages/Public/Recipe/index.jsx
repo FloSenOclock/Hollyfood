@@ -1,19 +1,43 @@
-const OneRecipe = () => {
+import React, { useEffect, useState } from 'react';
+import apiFetch from "../../../Utils/apiFetch";
+import { useParams } from 'react-router-dom';
+
+
+const OneRecipe = ({recipe, setRecipe}) => {
+
+    const { slug } = useParams();
+  
+    const getOneRecipe = async () => {
+      try {
+        const data = await apiFetch(`recette/${slug}`, {}, 'GET');        
+        setRecipe(data.recipe);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    useEffect(() => {
+      getOneRecipe();
+    }, [slug]);
+
+
+
+
     return (
         <div>
-<h2>Titre de la recette</h2>
-<span>Note de la recette avec étoiles</span>
+<h2>{recipe.name}</h2>
+<span>{recipe.score}</span>
 <section>
-    <img src="/" alt="image de la recette" />
-    <p>Paragraphe anecdotes sur la recette</p>
-    <p>Temps de préparation</p>
+    <img src="{recipe.picture}" alt="image de la recette" />
+    <p>{recipe.quote}</p>
+    <p>{recipe.total_time}</p>
 </section>
 <section>
 <div>
     <button>-</button>
-    <p>Nombre de personnes</p>
+    <p>{recipe.servings}</p>
     <button>+</button>
-    <div>Difficulté</div>
+    <div>{recipe.difficulty}</div>
 </div>
 <div>
     <h3>Ingrédients :</h3>
@@ -26,7 +50,7 @@ const OneRecipe = () => {
 </section>
 <section>
     <h3>Instructions</h3>
-    <p>Etapes de la recettes Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, doloribus doloremque facere, ex laboriosam qui quaerat veniam dolores nesciunt harum amet, voluptas quae. Similique, incidunt totam aliquam dolores facere maxime obcaecati veniam nobis cupiditate doloremque atque fugit aspernatur nostrum tempore. Repellat inventore eveniet animi sint exercitationem, vitae soluta quibusdam cupiditate velit sunt fuga, numquam recusandae architecto minima ratione ullam itaque? Et consequatur qui sed ipsum asperiores fugiat laudantium, dignissimos soluta ex exercitationem veritatis. Nam architecto exercitationem, commodi eos numquam, rem placeat provident dolore officiis nostrum fugit delectus, ullam consequuntur eum? Expedita doloribus, ex aut enim corrupti deserunt distinctio possimus molestiae.</p>
+    <p>{recipe.instruction}</p>
     <div>Ajoutez aux favoris</div>
     <div>Partagez</div>
 </section>

@@ -4,12 +4,12 @@ import RandomCarrousel from "../../../Components/public/randomCarrousel";
 import {boxOfficeSort, lastReleaseSort, randomSort} from "../../../Utils/sortFunction";
 import apiFetch from "../../../Utils/apiFetch";
 
-const Home = () => {   
-  const [recipes, setRecipes] = useState([]);
+const Home = ({recipes, setRecipes}) => {   
+
   
   const getRecipes = async () => {
     try {
-      const data = await apiFetch('recettes', {}, 'GET'); 
+      const data = await apiFetch('/', {}, 'GET'); 
       setRecipes(data.recipes);
  
     } catch (error) {

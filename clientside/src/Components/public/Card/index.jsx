@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const Card = ({score, picture, name, difficulty, slug}) => {
+const Card = ({score, picture, name, difficulty, slug, workTitle}) => {
     return (
 <div className="ms-8">
 <article>
@@ -10,7 +10,7 @@ const Card = ({score, picture, name, difficulty, slug}) => {
         <h2>{name}</h2>
     </div>
     <div>
-        <h2>Titre du film</h2>
+        <h2>{workTitle}</h2>
     </div>
     <div>
         <p>Nombres de commentaires</p>

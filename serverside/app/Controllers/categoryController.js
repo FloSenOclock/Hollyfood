@@ -1,4 +1,3 @@
-import {Category, Recipe, Work} from "../Models/index.js";
 import {getOneCategory} from "../Queries/categoryRequest.js";
 
 
