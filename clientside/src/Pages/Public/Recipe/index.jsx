@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import apiFetch from "../../../Utils/apiFetch";
 import { useParams } from 'react-router-dom';
+import MyState from '../../../Components/public/MyContext';
 
+const OneRecipe = () => {
 
-const OneRecipe = ({recipe, setRecipe}) => {
+  const {recipe, setRecipe} = useContext(MyState)
 
     const { slug } = useParams();
   

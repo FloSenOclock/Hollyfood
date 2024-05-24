@@ -1,9 +1,10 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import apiFetch from '../../../Utils/apiFetch';
+import MyState from '../MyContext';
 
+const SearchBar = () => {
 
-const SearchBar = ({search, setSearch, setRecipesList }) => {
-
+const {search, setSearch, setRecipes} = useContext(MyState)
 
 const [value, setValue] = useState('') // On crée une state qui prendra par defaut une string vide
 
@@ -11,7 +12,7 @@ const [value, setValue] = useState('') // On crée une state qui prendra par def
 const getRecipesList = async () => { // On crée une fonction pour utiliser l'api qui renverra nos recettes 
   try {
     const data = await apiFetch('recettes', {}, 'GET'); 
-    setRecipesList(data.recipes);
+    setRecipes(data.recipes);
 
   } catch (error) {
     console.error(error);
@@ -29,6 +30,7 @@ useEffect(() => { // On utilise un hook useEffect pour indiqué que a chaque cha
     const handleChange = (e) => {
       setValue(
         e.target.value)
+     
     }
 
     const handleSubmit = async (e) => {

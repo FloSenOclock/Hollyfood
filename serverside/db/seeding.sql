@@ -2,13 +2,8 @@ BEGIN;
 
 SET CLIENT_ENCODING TO 'UTF-8';
 
-TRUNCATE "user", "role", "comment", "recipe", "ingredient", "category", "work", "tag", "proportion", "favorite", "recipe_has_ingredient", "ingredient_has_proportion", "recipe_has_tag", "recipe_has_category" CASCADE;
+TRUNCATE "user", "role", "comment", "recipe", "ingredient", "work", "tag", "proportion", "favorite", "recipe_has_ingredient", "ingredient_has_proportion", "recipe_has_tag" CASCADE;
 
-INSERT INTO "category"
-  ("name")
-VALUES
-  ('film'),
-  ('serie');
   
 INSERT INTO "ingredient"
   ("name")
@@ -16,12 +11,12 @@ VALUES
   ('Tomates');
 
 INSERT INTO "work"
-  ("title", "synopsis", "category_id")
+  ("title", "synopsis")
 VALUES
-  ('Garfield', 'Un chat ...',1),
-  ('La Princesse et la Grenouille', 'Disney ...',1),
-  ('Star Wars', 'Film de science-fantasie ...',1),
-  ('Once Upon A Time', 'Univers Fantastique ...',2);
+  ('Garfield', 'Un chat ...'),
+  ('La Princesse et la Grenouille', 'Disney ...'),
+  ('Star Wars', 'Film de science-fantasie ...'),
+  ('Once Upon A Time', 'Univers Fantastique ...');
 
 
 
@@ -39,7 +34,10 @@ VALUES
 INSERT INTO "tag"
   ("name")
 VALUES
-  ('salé');
+  ('serie'),
+  ('film'),
+  ('salé'),
+  ('sucré');
 
 INSERT INTO "user"
   ( "name","firstname","email","password", "role_id")
@@ -62,13 +60,6 @@ INSERT INTO "comment"
 VALUES
   ('Lorem','2024-04-26', 1, 1);
  
-INSERT INTO "recipe_has_category"
-  ( "recipe_id", "category_id")
-VALUES
-  (1, 1),
-  (2, 1),
-  (3, 1),
-  (4, 2);
   
 INSERT INTO "recipe_has_ingredient"
   ( "ingredient_id", "recipe_id")
@@ -83,7 +74,14 @@ VALUES
 INSERT INTO "recipe_has_tag"
   ( "recipe_id", "tag_id")
 VALUES
-  (1, 1);
+  (1, 2),
+  (1, 3),
+  (2, 2),
+  (2, 4),
+  (3, 2),
+  (3, 3),
+  (4, 1),
+  (4, 4);
   
 INSERT INTO "favorite"
   ( "user_id", "recipe_id")

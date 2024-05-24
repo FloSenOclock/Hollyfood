@@ -7,7 +7,6 @@ import tagController from './Controllers/tagController.js';
 import mainController from './Controllers/mainController.js';
 import recipeController from './Controllers/recipeController.js';
 import authController from './Controllers/authController.js';
-import categoryController from './Controllers/categoryController.js';
 // import adminController from './Controllers/adminController.js';
 import profilController from './Controllers/profilController.js'
 import jwt from '../middlewares/jwt.js';
@@ -25,18 +24,14 @@ const router = express.Router();
 router.get('/',mainController.home);
 
 // Route pour afficher toutes les recettes
-router.get('/recettes', recipeController.list); 
-// Route pour afficher une page film/serie
-router.get('/recettes/:name', categoryController.getOneCategory);
+router.get('/recettes', recipeController.getAllRecipes); 
+
 
 // Route pour afficher une recette spécifique en utilisant le slug
-router.get('/recette/:slug', recipeController.getRecipe);
-
-// Route pour afficher une page film/serie
-router.get('/category/:name', categoryController.getOneCategory);
+router.get('/recette/:slug', recipeController.getOneRecipe);
 
 // Route pour afficher la page profil
-router.get('/profil', jwt, profilController.profil);
+router.get('/profil', jwt, profilController.getOneUser);
 
 
 // Route pour vla vérification de l'email unique

@@ -2,14 +2,8 @@ BEGIN;
 
 SET CLIENT_ENCODING TO 'UTF-8';
 
-DROP TABLE IF EXISTS "user", "role", "comment", "recipe", "ingredient", "category", "work", "tag", "proportion", "favorite", "recipe_has_ingredient", "ingredient_has_proportion", "recipe_has_tag", "recipe_has_category" CASCADE;
+DROP TABLE IF EXISTS "user", "role", "comment", "recipe", "ingredient", "work", "tag", "proportion", "favorite", "recipe_has_ingredient", "ingredient_has_proportion", "recipe_has_tag" CASCADE;
 
-CREATE TABLE "category" (
-   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-   "name" TEXT NOT NULL,
-   "createdAt" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-   "updatedAt" TIMESTAMPTZ
-);
 
 CREATE TABLE "ingredient" (
    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -22,7 +16,6 @@ CREATE TABLE "work" (
    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
    "title" TEXT NOT NULL,
    "synopsis" TEXT NOT NULL,
-   "category_id" INTEGER REFERENCES "category"("id") NOT NULL,
    "createdAt" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
    "updatedAt" TIMESTAMPTZ
 );
@@ -88,13 +81,6 @@ CREATE TABLE "comment" (
    "updatedAt" TIMESTAMPTZ
 );
 
-CREATE TABLE "recipe_has_category" (
-   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-   "recipe_id" INTEGER REFERENCES "recipe"("id") NOT NULL,
-   "category_id" INTEGER REFERENCES "category"("id") NOT NULL,
-   "createdAt" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-   "updatedAt" TIMESTAMPTZ
-);
 
 CREATE TABLE "recipe_has_ingredient" (
    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

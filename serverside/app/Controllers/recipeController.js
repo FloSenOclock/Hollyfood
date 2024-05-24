@@ -1,51 +1,41 @@
-import { Recipe, Ingredient,Work} from "../Models/index.js";
+import { getOneRecipe, getAllRecipes } from "../Queries/recipeRequest.js";
 
 const recipeController = {
 
-  async list(req, res) {
-    
-    try {
-   
-      const recipes = await Recipe.findAll({  // Je recupere la liste de toutes les recettes
-        include: [{
-          model: Work,
-          as: 'work'
-          },
-          {
-            model: Ingredient,
-            through: 'recipe_has_ingredient'
-          }
-        ],
-      });
-      res.json({recipes});
-    } catch (error) {
-      res.status(404).json({ message: 'Recipes not found' });
-    }
-  },
+getOneRecipe: async(req,res) =>{
 
-  async getRecipe(req, res) {
+try {
+  await getOneRecipe(req,res);
+  
+} catch (error) {
+  console.error('Erreur lors de la recherche de l\'utilisateur :', error);
+  res.status(500).json({ message: 'Erreur serveur lors de la recherche de l\'utilisateur' });
+}
+},
 
-    try {
-      // Je recupere une recette en utilisant le slug
-      const recipeSlug = req.params.slug;
-      // Recherche de la recette ds la BDD en fct du slug.
-      const recipe= await Recipe.findOne({
-        where:{ slug: recipeSlug }
-      });
-      
-      //Je vérifie si la recette existe
-      if (!recipe) {
-        // Si la recette n'est pas trouvée, renvoyer une erreur 404
-        return res.status(404).json({ message: 'Recipe not found' });
-      }
+getAllRecipes: async(req,res) => {
 
-      // Si la recette est trouvée, renvoyer la recette au format JSON
-      res.json({ recipe });
-    } catch (error) {
-      // En cas d'erreur, renvoyer une erreur 500 avec un message d'erreur
-      res.status(500).json({ message: 'Internal server error' });
-    }
+  try {await getAllRecipes(req,res)
+  
+  } catch (error) {
+    console.error('Erreur lors de la recherche de l\'utilisateur :', error);
+    res.status(500).json({ message: 'Erreur serveur lors de la recherche de l\'utilisateur' });
   }
+},
 };
 
 export default recipeController;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

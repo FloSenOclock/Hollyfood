@@ -1,11 +1,13 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import SearchBar from "../searchForm";
 
-const Header = ({setSearch, search, setRecipesList}) => {
+
+const Header = () => {
 
   const token = localStorage.getItem('token');
   const navigate=useNavigate();
+  const location = useLocation();
 
   const handleDeconnexion = () => {
     navigate('/accueil');
@@ -19,12 +21,17 @@ const Header = ({setSearch, search, setRecipesList}) => {
     <header className="bg-slate-300 text-center ">
       {/* Logo du site */}
       <div className="">
-        <Link to="/accueil">
-          <img src="/" alt="Logo du site" />
-        </Link>
+        {location.pathname !== '/accueil' && location.pathname !== '/' && (
+          <Link to="/accueil">
+            <img src="/" alt="Logo du site" />
+          </Link>
+        )}
+        {(location.pathname === '/accueil' || location.pathname === '/') && (
+          <div><img src="/" alt="Logo du site" /></div>
+        )}
       </div>
       {/* Barre de recherche */}
-        <SearchBar  setSearch={setSearch} search={search} setRecipesList={setRecipesList} />
+        <SearchBar />
       {/* Lien vers la page de connexion avec Logo de Profil */}
       <div>
         {token ?
@@ -41,17 +48,22 @@ const Header = ({setSearch, search, setRecipesList}) => {
       
       {/* Barre de navigation */}
       <nav className="">
-        <ul>
-          <li>
-            <Link to="/recettes">Recettes</Link>
-          </li>
-          <li>
-            <Link to="/recettes/film">Films</Link>
-          </li>
-          <li>
-            <Link to="/recettes/serie">Séries</Link>
-          </li>
-        </ul>
+        <div>
+        <div>
+      {location.pathname === '/recettes' && (
+        <Link to="/accueil">Accueil</Link>
+      )}
+      {(location.pathname === '/accueil' || location.pathname === '/') && (
+        <Link to="/recettes">Recettes</Link>
+      )}
+      {!(location.pathname === '/recettes' || location.pathname === '/accueil' || location.pathname === '/') && (
+        <div>
+          <Link to="/accueil">Accueil  </Link>
+          <Link to="/recettes">  Recettes</Link>
+        </div>
+      )}
+    </div>       
+        </div>
       </nav>
       {/* Titre du site et sous-titre */}
       <div className="">

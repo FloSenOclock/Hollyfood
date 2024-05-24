@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Card from '../Card';
+import MyState from '../MyContext';
+
 
 
 const Carrousel = ({recipes, sortFunction}) => {
     
+
     const sortedRecipes = sortFunction(recipes);
 
     return (

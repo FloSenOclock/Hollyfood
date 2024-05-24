@@ -1,9 +1,8 @@
 import User from "./User.js";
 import Role from "./Role.js";
-import Recipe from "./Recipe/Recipe.js";
+import Recipe from "./Recipe.js";
 import Work from "./Work.js";
 import Comment from "./Comment.js"
-import Category from "./Category.js";
 import Ingredient from "./Ingredient.js";
 import Proportion from "./Proportion.js";
 import Tag from "./Tag.js";
@@ -29,17 +28,11 @@ Recipe.hasMany(Comment, { foreignKey: "recipe_id", as: "comments"});
 Comment.belongsTo(User, { foreignKey: "user_id", as: "user"});
 User.hasMany(Comment, { foreignKey: "user_id", as: "comments"});
 
-// Relation de l'oeuvre avec sa category
-Work.belongsTo(Category, { foreignKey: "category_id", as: "workCategory"});
-Category.hasMany(Work, { foreignKey: "category_id", as: "category"});
 
 // Relation des favoris entre les utilisateurs et les recettes
 Recipe.belongsToMany(User, {foreignKey:"recipe_id", through: 'recipe_has_User' });
 User.belongsToMany(Recipe, {foreignKey:"user_id", through: 'recipe_has_user' });
 
-// Relation entre les recette et les categories
-Recipe.belongsToMany(Category, { foreignKey:"recipe_id", through:'recipe_has_category' });
-Category.belongsToMany(Recipe, { foreignKey:"category_id",through: 'recipe_has_category' });
 
 // Relation entre les recette et les ingredients
 Recipe.belongsToMany(Ingredient, {foreignKey:"recipe_id", through: 'recipe_has_ingredient' });
@@ -53,4 +46,4 @@ Proportion.belongsToMany(Ingredient, {foreignKey:"proportion_id", through: 'ingr
 Recipe.belongsToMany(Tag, {foreignKey:"recipe_id", through:'recipe_has_tag' });
 Tag.belongsToMany(Recipe, {foreignKey:"tag_id", through: 'recipe_has_tag' });
 
-export {User, Role, Recipe, Work, Comment, Category, Ingredient, Proportion, Tag}
+export {User, Role, Recipe, Work, Comment, Ingredient, Proportion, Tag}

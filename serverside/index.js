@@ -1,4 +1,5 @@
-import express from 'express';;
+import pkg from 'pg'
+import express from 'express';
 import * as dotenv from 'dotenv';
 import router from './app/router.js';
 import cors from 'cors';

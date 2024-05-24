@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import Carrousel from "../../../Components/public/carrousel";
-import RandomCarrousel from "../../../Components/public/randomCarrousel";
-import {boxOfficeSort, lastReleaseSort, randomSort} from "../../../Utils/sortFunction";
+import {boxOfficeSort, lastReleaseSort} from "../../../Utils/sortFunction";
 import apiFetch from "../../../Utils/apiFetch";
+import MyState from '../../../Components/public/MyContext';
 
-const Home = ({recipes, setRecipes}) => {   
+const Home = () => {   
 
+  const {recipes, setRecipes} = useContext(MyState)
   
   const getRecipes = async () => {
     try {
-      const data = await apiFetch('/', {}, 'GET'); 
+      const data = await apiFetch('recettes', {}, 'GET'); 
       setRecipes(data.recipes);
  
     } catch (error) {
@@ -32,11 +33,7 @@ const Home = ({recipes, setRecipes}) => {
         <section>
           <h2>Dernières sorties</h2>
           {/*fonction de tri par date de création pour les dernières sorties */}
-          <Carrousel recipes={recipes} sortFunction={lastReleaseSort} />
-        </section>
-        <section>
-            {/* fonction de tri pour affichage aléatoire */}
-          <RandomCarrousel recipes={recipes} sortFunction={randomSort}/>
+          <Carrousel recipes={recipes}   sortFunction={lastReleaseSort} />
         </section>
       </main>
     </>

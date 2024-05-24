@@ -1,24 +1,20 @@
-import User from '../Models/User.js';
+import { getOneUser } from '../Queries/userRequest.js';
 
 const profilController =  {
 
-    profil: async (req,res) => {
-        const {id} = req.user;
+    getOneUser: async (req,res) => {
+        
         try {
-            const user = await User.findOne({where: {id: id}});
-            
-            if (user) {
-                res.json({profil: user})
-            }
-
-            else {
-                res.status(404).json({ message: "Utilisateur non trouvé" });
-            }
+            await getOneUser(req,res);
 
         } catch (error) {
             res.status(500).json({ message: "Erreur lors de la récupération du profil utilisateur" });
         }
-    }
+    },
+
+    notFound : (req,res)=>  {
+        res.status(404).json({ error: 'Ressource introuvable' });
+      },
 };
 
  export default profilController;

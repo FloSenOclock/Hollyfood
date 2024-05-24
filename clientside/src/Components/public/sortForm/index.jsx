@@ -4,19 +4,16 @@ const SortForm = () => {
                     <section>
                 <form>
                     <div>
-                        <label><input type="checkbox" />Salé</label>                        
+                        <label><input type="checkbox" />serie</label>                        
                     </div>
                     <div>
-                        <label><input type="checkbox" />Sucré</label>                        
+                        <label><input type="checkbox" />film</label>                        
                     </div>
                     <div>
-                        <label><input type="checkbox" />Dessert</label>                        
+                        <label><input type="checkbox" />salé</label>                        
                     </div>
                     <div>
-                        <label><input type="checkbox" />Apéro</label>                        
-                    </div>
-                    <div>
-                        <label><input type="checkbox" />Diner</label>                        
+                        <label><input type="checkbox" />sucré</label>                        
                     </div>
                     <button type="submit">Trier</button>
                     <button>Plus de critères</button>

@@ -29,7 +29,8 @@ const Profile = () => {
     const getUser = async () => {
       try {
         const data = await apiFetch('profil', {}, 'GET');        
-        setUser(data.profil);
+        setUser(data.user);
+        console.log(data.user);
       } catch (error) {
         console.error(error);
       }

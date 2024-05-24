@@ -16,3 +16,7 @@ export const randomSort = (toto) => {
   return toto.sort(() => Math.random() - 0.5);
 };
 
+
+
+
+
