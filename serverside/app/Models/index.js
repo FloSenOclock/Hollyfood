@@ -6,6 +6,8 @@ import Comment from "./Comment.js"
 import Ingredient from "./Ingredient.js";
 import Proportion from "./Proportion.js";
 import Tag from "./Tag.js";
+import Score from "./Score.js";
+import Favorite from "./Favorite.js";
 
 // Relation de l'utilisateur avec son role
 User.belongsTo(Role, { foreignKey: "role_id", as: "role"});
@@ -20,6 +22,10 @@ Work.hasMany(Recipe, { foreignKey: "work_id", as: "recipes"});
 Recipe.belongsTo(User, { foreignKey: "user_id", as: "user"});
 User.hasMany(Recipe, { foreignKey: "user_id", as: "recipes"});
 
+// Relation des favoris entre les utilisateurs et les recettes
+User.belongsToMany(Recipe, {foreignKey:"user_id", through: Favorite });
+Recipe.belongsToMany(User, {foreignKey:"recipe_id", through: Favorite });
+
 // Relation du commentaire avec sa recette
 Comment.belongsTo(Recipe, { foreignKey: "recipe_id", as: "recipe"});
 Recipe.hasMany(Comment, { foreignKey: "recipe_id", as: "comments"});
@@ -27,12 +33,6 @@ Recipe.hasMany(Comment, { foreignKey: "recipe_id", as: "comments"});
 // Relation du commentaire avec son utilisateur
 Comment.belongsTo(User, { foreignKey: "user_id", as: "user"});
 User.hasMany(Comment, { foreignKey: "user_id", as: "comments"});
-
-
-// Relation des favoris entre les utilisateurs et les recettes
-Recipe.belongsToMany(User, {foreignKey:"recipe_id", through: 'recipe_has_User' });
-User.belongsToMany(Recipe, {foreignKey:"user_id", through: 'recipe_has_user' });
-
 
 // Relation entre les recette et les ingredients
 Recipe.belongsToMany(Ingredient, {foreignKey:"recipe_id", through: 'recipe_has_ingredient' });
@@ -46,4 +46,12 @@ Proportion.belongsToMany(Ingredient, {foreignKey:"proportion_id", through: 'ingr
 Recipe.belongsToMany(Tag, {foreignKey:"recipe_id", through:'recipe_has_tag' });
 Tag.belongsToMany(Recipe, {foreignKey:"tag_id", through: 'recipe_has_tag' });
 
-export {User, Role, Recipe, Work, Comment, Ingredient, Proportion, Tag}
+// Relation des notes entre les utilisateurs et les recettes
+User.belongsToMany(Recipe, { foreignKey: 'user_id',  through: Score });
+Recipe.belongsToMany(User, {  foreignKey: 'recipe_id', through: Score });
+
+Favorite.belongsTo(Recipe, { foreignKey: 'recipe_id', as: 'recipe' });
+
+export {User, Role, Recipe, Work, Comment, Ingredient, Proportion, Tag, Score, Favorite};
+
+

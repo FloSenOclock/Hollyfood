@@ -44,11 +44,6 @@ Recipe.init({
         allowNull: false,
     },
 
-    score: {
-        type: DataTypes.INTEGER,
-        allowNull: true
-    },
-
 }, {
     sequelize,
     modelName: 'Recipe',

@@ -2,6 +2,7 @@ import { processLoginForm, processSubForm, forgotPassword, resetPassword } from 
 
 const authController = {
 
+    // Fonction pour traiter le formulaire de connexion
     processLoginForm: async (req, res) => { 
         try {
             await processLoginForm(req, res);
@@ -11,6 +12,7 @@ const authController = {
         }
     },
 
+    // Fonction pour traiter le formulaire de soumission
     processSubForm: async (req, res) => {
         try {
             await processSubForm(req, res);
@@ -20,6 +22,7 @@ const authController = {
         }
     },
 
+    // Fonction pour gérer la demande de réinitialisation de mot de passe
     forgotPassword: async (req, res) => {
         try {
             await forgotPassword(req, res);
@@ -29,7 +32,8 @@ const authController = {
         }
     },
 
-    resetPassword: async (req, res) => {
+    // Fonction pour réinitialiser le mot de passe
+    resetPassword: async (req, res) => { 
         try {
             await resetPassword(req, res);
         } catch (error) {
@@ -38,6 +42,5 @@ const authController = {
         }
     },
 }; 
-  
 
 export default authController;

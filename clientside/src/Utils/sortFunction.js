@@ -1,7 +1,7 @@
 
 {/*fonction de tri pour affichage par les recettes les mieux notées */}
 export const boxOfficeSort = (toto) => {
-    return toto.sort((a, b) => b.score - a.score);
+    return toto.sort((a, b) => b.averageRating - a.averageRating);
   };
 
 

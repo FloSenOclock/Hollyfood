@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import {React, useState, useEffect} from 'react';
 import {Route, Routes, useLocation } from "react-router-dom";
 
 import Layout from '../Pages/Public/Layout';
@@ -21,22 +21,33 @@ import MyState from '../Components/public/MyContext/index'
 
 const PublicRouter = () => {
 
-  const [recipes, setRecipes] = useState([]);
-  const [recipe, setRecipe] = useState("");
-  const [search, setSearch] = useState("");
-  const location= useLocation();
+
+  const [recipes, setRecipes] = useState([]); // On crée une state recipes pour stocker les recettes
+  const [recipe, setRecipe] = useState(""); // On crée une state recipe pour stocker une recette
+  const [checked, setChecked] = useState({serie: false, film: false, salé: false, sucré:false}) // On crée une state checked pour stocker les filtres
+  const [search, setSearch] = useState(""); // On crée une state search pour stocker la recherche
+  const [user, setUser] = useState({}); // Informations de l'utilisateur
+  const [favorites, setFavorites] = useState([]); // Recettes favorites de l'utilisateur
+  const [nameEdit, setNameEdit] = useState(""); // On stock la string qui sera dans le champs name du profil
+  const [firstnameEdit, setFirstnameEdit] = useState("");// On stock la string qui sera dans le champs firstname du profil
+  const [updateName, setUpdateName] = useState(false);// Je controle que la mise à jour pour le name est vrai ou non 
+  const [updateFirstname, setUpdateFirstname] = useState(false);// Je controle que la mise à jour pour le firstname est vrai ou non 
+  const location= useLocation(); // On utilise le hook useLocation pour récupérer la location de la page
+
 
   useEffect(() => {
     return () => {
       setSearch(''),
       setRecipes([]);
     }
-  }, [location])
+  }, [location]) // On utilise un hook useEffect pour indiqué que a chaque changement de location on lui envoie la fonction api
 
 
   
     return (
-      <MyState.Provider value={{recipes , setRecipes , recipe , setRecipe , search , setSearch}} >
+      <MyState.Provider value={{
+        recipes , setRecipes , recipe , setRecipe , search , setSearch, checked, setChecked, user, setUser, favorites, setFavorites, nameEdit, setNameEdit, firstnameEdit, setFirstnameEdit, updateName, setUpdateName, updateFirstname, setUpdateFirstname
+        }} >
         <Routes>
           <Route element={<Layout />}>
             <Route index element={<Home />} />

@@ -1,10 +1,20 @@
+import React from "react";
 import { Link } from "react-router-dom";
+import FavButton from "../Buttons/FavButton";
+import { RatedBar } from "../ratingBar";
 
-const Card = ({score, picture, name, difficulty, slug, workTitle}) => {
+
+const Card = ({score, picture, name, difficulty, slug, workTitle, id}) => {
+
+   
     return (
 <div className="ms-8">
-<article>
-    <div>{score}</div>
+
+<article >
+    <div >
+       < RatedBar score={score}/>   
+    </div>
+    
     <figure>{picture}</figure>
     <div>
         <h2>{name}</h2>
@@ -20,10 +30,11 @@ const Card = ({score, picture, name, difficulty, slug, workTitle}) => {
     </div>
     <div>
         <Link to={`/recette/${slug}`}>Détail</Link>
+        </div>
+          <FavButton recipeId={id} />
+      </article>
     </div>
-</article>
-</div>
-    )
+  );
 };
 
 export default Card;

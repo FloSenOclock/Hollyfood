@@ -1,4 +1,4 @@
-const apiFetch = async (path, body = undefined, method = 'GET') => {
+const apiFetch = async (path, body = {}, method = 'GET') => {
   const token = localStorage.getItem('token') || null;
 
   // Détermine si une requête nécessite un corps de requête ou non
@@ -9,12 +9,14 @@ const apiFetch = async (path, body = undefined, method = 'GET') => {
       'Content-Type': 'application/json',
     },
   };
-
-  if (method !== 'GET') {
+  
+  if (method !== 'GET') { // Si la méthode n'est pas GET, inclure le corps de la requête
     options.body = JSON.stringify(body);
   }
+ 
 
-  const response = await fetch( `http://localhost:3000/api/${path}`, options);
+  const response = await fetch( `https://hollyfood.onrender.com/api/${path}`, options); // Envoyer la requête à l'API
+
 
   if (!response.ok) {
     throw new Error('Erreur lors de la connexion');

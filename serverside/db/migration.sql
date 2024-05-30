@@ -2,7 +2,7 @@ BEGIN;
 
 SET CLIENT_ENCODING TO 'UTF-8';
 
-DROP TABLE IF EXISTS "user", "role", "comment", "recipe", "ingredient", "work", "tag", "proportion", "favorite", "recipe_has_ingredient", "ingredient_has_proportion", "recipe_has_tag" CASCADE;
+DROP TABLE IF EXISTS "user", "role", "comment", "recipe", "ingredient", "work", "tag", "proportion","score", "favorite", "recipe_has_ingredient", "ingredient_has_proportion", "recipe_has_tag" CASCADE;
 
 
 CREATE TABLE "ingredient" (
@@ -64,7 +64,6 @@ CREATE TABLE "recipe" (
     "total_time" TIME NOT NULL ,
     "servings" INTEGER NOT NULL,
     "difficulty" TEXT NOT NULL,
-    "score" INTEGER,
     "work_id" INTEGER REFERENCES "work"("id") NOT NULL,
     "user_id" INTEGER REFERENCES "user"("id") NOT NULL,
     "createdAt" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -81,6 +80,15 @@ CREATE TABLE "comment" (
    "updatedAt" TIMESTAMPTZ
 );
 
+CREATE TABLE "score" (
+   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+   "rating" NUMERIC(3,2) NOT NULL CHECK ("rating" BETWEEN 0.5 AND 5),
+   "recipe_id" INTEGER REFERENCES "recipe"("id") NOT NULL,
+   "user_id" INTEGER REFERENCES "user"("id") NOT NULL,
+   "createdAt" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+   "updatedAt" TIMESTAMPTZ,
+   UNIQUE ("user_id", "recipe_id")
+);
 
 CREATE TABLE "recipe_has_ingredient" (
    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -105,6 +113,8 @@ CREATE TABLE "favorite"(
    "createdAt" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
    "updatedAt" TIMESTAMPTZ
 );
+
+
 
 CREATE TABLE "recipe_has_tag" (
    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

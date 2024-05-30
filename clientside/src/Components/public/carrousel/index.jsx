@@ -11,15 +11,16 @@ const Carrousel = ({recipes, sortFunction}) => {
 
     return (
         <div>
-            <div className="carrousel flex flex-row">
+            <div className="flex flex-row">
                 {sortedRecipes.map((recipe) => (
                     <Card key={recipe.id}
-                      score={recipe.score}
+                      score={recipe.averageRating}
                       picture={recipe.picture}
                       name={recipe.name}
                       workTitle={recipe.work.title}
                       difficulty={recipe.difficulty}
-                      slug={recipe.slug}      
+                      slug={recipe.slug}
+                      id={recipe.id}      
                       />
                 ))}
             </div>

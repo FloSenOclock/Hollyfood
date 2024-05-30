@@ -1,11 +1,15 @@
-import React from 'react';
+import React from "react";
+import {Route, Routes } from "react-router-dom";
+
+import { ALayout, Dashboard } from '../Pages/Admin'
 
 const AdminRouter = () => {
     return (
-        <div>
-            
-        </div>
+        <Routes>
+            <Route element={<ALayout/>}/>
+                <Route path="dashboard" element={<Dashboard/>}>
+                </Route>
+        </Routes>
     );
 };
-
 export default AdminRouter;

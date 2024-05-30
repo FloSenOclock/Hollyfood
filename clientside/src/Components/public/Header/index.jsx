@@ -5,14 +5,16 @@ import SearchBar from "../searchForm";
 
 const Header = () => {
 
-  const token = localStorage.getItem('token');
-  const navigate=useNavigate();
-  const location = useLocation();
+  const token = localStorage.getItem('token'); // récupérer le token de l'utilisateur
+  const navigate=useNavigate(); // Hook de navigation
+  const location = useLocation(); // Hook de localisation
 
+
+  // Fonction pour gérer la déconnexion de l'utilisateur
   const handleDeconnexion = () => {
-    navigate('/accueil');
-    localStorage.removeItem('token');
-    window.location.reload();
+    navigate('/accueil'); // Rediriger l'utilisateur vers la page d'accueil
+    localStorage.removeItem('token'); // Supprimer le token de l'utilisateur
+    window.location.reload(); // Recharger la page
   }
 
    // champs vide à l'état initial

@@ -4,7 +4,7 @@ import apiFetch from '../../../Utils/apiFetch';
 
 const ConnectForm = () => {
 
-const navigate = useNavigate();   
+const navigate = useNavigate();   // hook de navigation
 
  // mise en place des useState sous forme d'objet pour factoriser
  const [credentials, setCredentials] = useState({
@@ -21,11 +21,11 @@ const onChange = (e) => {
     })
 };
 
-const onSubmit = async (e) => {
-    e.preventDefault();
+const onSubmit = async (e) => {  // fonction asynchrone pour envoyer les données du formulaire
+    e.preventDefault(); // empêcher le rechargement de la page
 
-    const data = await apiFetch('connexion', credentials, 'POST')
-    localStorage.setItem('token', data.token)
+    const data = await apiFetch('connexion', credentials, 'POST') // envoyer les données du formulaire à l'API
+    localStorage.setItem('token', data.token) // stocker le token dans le local storage
 
     try {
             console.log('Réponse de l\'API :', data);

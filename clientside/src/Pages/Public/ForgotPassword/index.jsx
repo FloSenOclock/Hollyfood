@@ -4,16 +4,16 @@ import { Link, useNavigate } from "react-router-dom";
 import apiFetch from "../../../Utils/apiFetch";
 
 const ForgotPassword = () => {
-    const navigate = useNavigate();
-    const [email, setEmail] = useState('');
+    const navigate = useNavigate(); // Hook de navigation
+    const [email, setEmail] = useState(''); // Initialiser l'email à une chaîne de caractères vide
 
     const onChange = (e) => {
-        setEmail(e.target.value);
+        setEmail(e.target.value); // Mettre à jour l'email avec la valeur de l'input
     }
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        const data = await apiFetch('forgot-password', { email: email }, 'POST');
+        const data = await apiFetch('forgot-password', { email: email }, 'POST'); // Envoyer l'email à l'API
         console.log('Réponse de l\'API :', data);
         
         // Vérifier si la réponse contient un message d'erreur
