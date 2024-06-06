@@ -75,35 +75,35 @@ const Subform = () => {
     
 
     return (
-        <div>
+        <div className=''>
             <form onSubmit={onSubmit}>
             {exist && <div className="error">Cette adresse email existe déjà</div>}
                 <div>
                     <label htmlFor="name">Nom *</label>
-                    <input type="text" name="name" id="name" required value={credentials.name} onChange={onChange} />
+                    <input className='bg-yellow-50 rounded-lg border-2 border-yellow-400' type="text" name="name" id="name" required value={credentials.name} onChange={onChange} />
                     {errors.name && <div className="error">{errors.name}</div>}
                 </div>
                 <div>
                     <label htmlFor="firstname">Prénom *</label>
-                    <input type="text" name="firstname" id="firstname" required value={credentials.firstname} onChange={onChange} />
+                    <input className='bg-yellow-50 rounded-lg border-2 border-yellow-400' type="text" name="firstname" id="firstname" required value={credentials.firstname} onChange={onChange} />
                     {errors.firstname && <div className="error">{errors.firstname}</div>}
                 </div>
                 <div>
                     <label htmlFor="email">Adresse mail *</label>
-                    <input type="email" name="email" id="email" required value={credentials.email} onChange={onChange} />
+                    <input className='bg-yellow-50 rounded-lg border-2 border-yellow-400' type="email" name="email" id="email" required value={credentials.email} onChange={onChange} />
                     {errors.email && <div className="error">{errors.email}</div>}
                 </div>
                 <div>
                     <label htmlFor="password">Mot de passe *</label>
-                    <input type="password" name="password" id="password" required value={credentials.password} onChange={onChange} />
+                    <input className='bg-yellow-50 rounded-lg border-2 border-yellow-400' type="password" name="password" id="password" required value={credentials.password} onChange={onChange} />
                     {errors.password && <div className="error">{errors.password}</div>}
                 </div>
                 <div>
                     <label htmlFor="confirmPassword">Confirmation du mot de passe *</label>
-                    <input type="password" name="confirmPassword" id="confirmPassword" required value={credentials.confirmPassword} onChange={onChange} />
+                    <input className='bg-yellow-50 rounded-lg border-2 border-yellow-400' type="password" name="confirmPassword" id="confirmPassword" required value={credentials.confirmPassword} onChange={onChange} />
                     {errors.confirmPassword && <div className="error">{errors.confirmPassword}</div>}
                 </div>
-                <button>Valider</button>
+                <button className='bg-yellow-400 px-6 py-2 rounded-full font-semibold hover:scale-105 hover:bg-black hover:text-yellow-400'>Valider</button>
             </form>
         </div>
     );

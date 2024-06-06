@@ -27,20 +27,20 @@ const ForgotPassword = () => {
     
 
     return (
-        <div>
-            <h2>Mot de passe oublié</h2>
+        <main className='flex flex-col text-center items-center mb-48'>
+            <h2 className="text-lg font-medium my-2 underline underline-offset-4">Mot de passe oublié</h2>
             <form onSubmit={onSubmit}>
                 <div>
                     <label htmlFor="email">E-mail</label>
-                    <input type="email" name="email" id="email" required value={email} onChange={onChange} />
+                    <input className='bg-yellow-50 rounded-lg border-2 border-yellow-400' type="email" name="email" id="email" required value={email} onChange={onChange} />
                 </div>
               
                
-                <button>Valider</button>
+                <button className='my-4 bg-yellow-400 px-6 py-2 rounded-full font-semibold hover:scale-105 hover:bg-black hover:text-yellow-400'>Valider</button>
                 <br />
-                <Link to="/connexion">Retour à la connexion</Link>
+                <Link className='italic hover:underline hover:underline-offset-4' to="/connexion">Retour à la connexion</Link>
             </form>
-        </div>
+        </main>
     );
 }
 

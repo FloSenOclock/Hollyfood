@@ -17,13 +17,9 @@ const FavButton = ({ recipeId }) => {
 
             try {
                 const data = await apiFetch('favorites', {}, 'GET'); // Récupérer les favoris de l'utilisateur
-                console.log(data);
-                if (data.userFavorites) {  // Vérifier si les favoris ont été récupérés
-                    // console.log('Favorites data:', data.userFavorite.Recipes); // Afficher les favoris
-                    // const isRecipeInFavorites = data.userFavorite.Recipes.some(recipe => recipe.id === recipeId); // Vérifier si la recette est dans les favoris
-                    // setIsFav(isRecipeInFavorites); // Mettre à jour l'état isFav
-                    // console.log(data.userFavorites);
-                    console.log(data.userFavorites);
+                if (data.favoriteRecipes) {  // Vérifier si les favoris ont été récupérés
+                    const isRecipeInFavorites = data.favoriteRecipes.some(recipe => recipe.id === recipeId); // Vérifier si la recette est dans les favoris
+                    setIsFav(isRecipeInFavorites); // Mettre à jour l'état isFav
                 } else {
                     throw new Error('Failed to fetch favorites');
                 }
@@ -55,9 +51,10 @@ const FavButton = ({ recipeId }) => {
         try {
             const handleMethod = isFav ? 'DELETE' : 'POST'; // Déterminer la méthode en fonction de l'état actuel
             const response = await apiFetch(`favorites`, {recipe_id: recipeId }, handleMethod) // Envoyer une requête pour ajouter ou retirer la recette des favoris
-            if (response.ok) {  // Vérifier si la requête a réussi
-                setIsFav(!isFav); // Mettre à jour l'état isFav
-            } else {
+            if (response) {  // Vérifier si la requête a réussi                
+                setIsFav(!isFav); // Mettre à jour l'état isFav 
+            }
+                 else {
                 throw new Error(`Failed to ${isFav ? 'remove from' : 'add to'} favorites`); // Afficher un message d'erreur
             }
         } catch (error) {
@@ -70,8 +67,22 @@ const FavButton = ({ recipeId }) => {
     if (error) return <p>{error}</p>; // Afficher un message d'erreur
 
     return (
-        <button onClick={handleFav}>  
-            {isFav ? "Retirer des favoris" : "Ajouter aux favoris"}
+        <button className="mt-2" onClick={handleFav}>  
+            {isFav ? 
+            <div className="flex hover:-translate-y-1 hover:scale-95">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
+            <path fillRule="evenodd" d="M6.32 2.577a49.255 49.255 0 0 1 11.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 0 1-1.085.67L12 18.089l-7.165 3.583A.75.75 0 0 1 3.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93Z" clipRule="evenodd" />
+            </svg>
+            <span className="ml-2 color-yellow-400">Retirer des favoris</span>
+           </div>
+            :
+            <div className="flex hover:-translate-y-1 hover:scale-105">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 text-yellow-400">
+            <path fillRule="evenodd" d="M6.32 2.577a49.255 49.255 0 0 1 11.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 0 1-1.085.67L12 18.089l-7.165 3.583A.75.75 0 0 1 3.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93Z" clipRule="evenodd" />
+            </svg>
+            <span className="ml-2">Ajouter aux favoris</span>
+           </div>
+             }
         </button>
     );
 };

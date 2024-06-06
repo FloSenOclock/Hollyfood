@@ -1,17 +1,50 @@
 import React, {useContext} from 'react';
 import Card from '../Card';
-import MyState from '../MyContext';
+import Slider from "react-slick";
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 
-
-const Carrousel = ({recipes, sortFunction}) => {
+const Carrousel = ({recipes, sortFunction, slider}) => {
     
 
     const sortedRecipes = sortFunction(recipes);
+   
+    const settings = {
+        accessibility:true,
+        arrows: false,
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 4,
+        slidesToScroll: 1,      
+        responsive: [
+            {
+                breakpoint: 1280,
+                settings: {
+                  slidesToShow: 3,
+                }
+              },
+            {
+              breakpoint: 768,
+              settings: {
+                slidesToShow: 2,
+              }
+            },
+            {
+              breakpoint: 480,
+              settings: {
+                slidesToShow: 1,
+                
+              }
+            }
+          ]
+      };
 
     return (
-        <div>
-            <div className="flex flex-row">
+                <div>                
+                    <Slider ref={slider} {...settings}>                    
                 {sortedRecipes.map((recipe) => (
                     <Card key={recipe.id}
                       score={recipe.averageRating}
@@ -23,8 +56,8 @@ const Carrousel = ({recipes, sortFunction}) => {
                       id={recipe.id}      
                       />
                 ))}
-            </div>
-        </div>
+                </Slider>
+                </div>
     );
 };
 

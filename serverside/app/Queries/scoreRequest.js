@@ -1,8 +1,37 @@
 import { Recipe, User, Score } from "../Models/index.js";
 import { Sequelize } from 'sequelize';
 
+// Vérifier si l'utilisateur a déjà noté la recette
+const checkRatingGet = async (req, res) => {
+    try {
+        const userId = req.user.id;
 
+            const { slug } = req.params;    // Récupérer le slug de la recette à partir des paramètres de la requête pour trouver l'id de la recette    
+            const recipe = await Recipe.findOne({ where: { slug } });
+            if (!recipe) {
+                return res.status(404).json({ error: "Recette non trouvée." });
+            }
+            const recipe_id = recipe.id; // Récupérer l'ID de la recette
 
+            const existingScore = await Score.findOne({ // Vérifier si l'utilisateur a déjà noté la recette
+                where: {
+                    recipe_id,
+                    user_id: userId
+                }
+            });
+            if (existingScore) {
+                return res.status(200).json({ hasRated: true}); // Retourner true si l'utilisateur a déjà noté la recette.
+            } else {
+                return res.status(200).json({ hasRated: false }); // Retourner false si l'utilisateur n'a pas encore noté la recette.
+            }
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "CheckRating Internal server error." });
+    }
+};
+ 
+// Noter une recette
 const recipeRating = async (req, res) => {
     try {
         const { recipe_id } = req.body; // Récupérer l'ID de la recette à partir du corps de la requête
@@ -10,18 +39,6 @@ const recipeRating = async (req, res) => {
 
         if (!recipe_id) { // Vérifier si l'ID de la recette est fourni
             return res.status(400).json({ error: "Recipe ID is required." });
-        }
-
-        // Vérifier si l'utilisateur a déjà noté la recette
-        const existingScore = await Score.findOne({
-            where: {
-                recipe_id,
-                user_id: userId
-            }
-        });
-
-        if (existingScore) { // Si l'utilisateur a déjà noté la recette
-            return res.status(400).json({ error: "Vous avez déjà noté la recette." });
         }
 
         // Créer une nouvelle note
@@ -35,9 +52,9 @@ const recipeRating = async (req, res) => {
 
 } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal server error." });
+    res.status(500).json({ error: "Recipe Rating Internal server error." });
 }
 };
 
 
-export { recipeRating };
+export { recipeRating, checkRatingGet };

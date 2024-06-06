@@ -1,6 +1,7 @@
 import React, { useEffect, useContext} from 'react';
 import SortForm from "../../../Components/public/sortForm";
 import Carrousel from "../../../Components/public/carrousel";
+import Card from '../../../Components/public/Card';
 import apiFetch from "../../../Utils/apiFetch";
 import {boxOfficeSort} from "../../../Utils/sortFunction";
 import MyState from '../../../Components/public/MyContext';
@@ -37,17 +38,38 @@ const Recipes = () =>  {
 
 
     return (
-        <div>
-            < SortForm />
-            { selectedTags.length > 0  ?
-                <Carrousel recipes={filteredRecipes} sortFunction={boxOfficeSort}  />
-
-                :
-
-                < Carrousel recipes={recipes} sortFunction={boxOfficeSort} />
-            }
-        
+        <main>
+          <SortForm />
+          { selectedTags.length > 0  ?
+            <div className='flex sm:justify-center'> {filteredRecipes.map((recipe) => (
+            <Card
+              key={recipe.id}
+              score={recipe.averageRating}
+              picture={recipe.picture}
+              name={recipe.name}
+              workTitle={recipe.work.title}
+              difficulty={recipe.difficulty}
+              slug={recipe.slug}
+              id={recipe.id}      
+              />
+        ))}
         </div>
+          :
+          <div className='flex sm:justify-center'> {recipes.map((recipe) => (
+            <Card
+              key={recipe.id}
+              score={recipe.averageRating}
+              picture={recipe.picture}
+              name={recipe.name}
+              workTitle={recipe.work.title}
+              difficulty={recipe.difficulty}
+              slug={recipe.slug}
+              id={recipe.id}      
+              />
+        ))}
+        </div>
+          }
+        </main>
     )
 };
 

@@ -3,6 +3,7 @@ import {Route, Routes, useLocation } from "react-router-dom";
 
 import Layout from '../Pages/Public/Layout';
 
+
 import Home from '../Pages/Public/Accueil';
 import About from '../Pages/Public/About';
 import Connect from '../Pages/Public/Connexion';

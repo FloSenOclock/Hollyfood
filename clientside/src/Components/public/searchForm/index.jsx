@@ -35,16 +35,19 @@ useEffect(() => { // On utilise un hook useEffect pour indiqué que a chaque cha
 
     const handleSubmit = async (e) => { // On crée une fonction qui prend en paramètre un événement
       e.preventDefault();
+      if (!value) {
+        return;
+      }
       setSearch(value) // On met à jour la state search avec la valeur de value
       setValue('') // On remet la valeur de value à vide
     }
     
  
     return (
-        <form className=""  onSubmit={handleSubmit} >
+        <form  className="flex" onSubmit={handleSubmit} >
             <label htmlFor=""></label>
-            <input type="search" name="search" id="search" placeholder="Recherche par Films, Séries,..."  value={value} onChange={handleChange}/>
-            <button type="submit">Rechercher</button>
+            <input className='rounded-lg md:px-10 lg:px-28 lg:ml-40' type="search" name="search" id="search" placeholder="Recherche par Films, Séries,..."  value={value} onChange={handleChange}/>
+            <button className='hidden lg:block' type="submit">Rechercher</button>
         </form>
         )
 };

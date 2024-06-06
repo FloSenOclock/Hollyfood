@@ -1,5 +1,5 @@
 import { getOneRecipe, getAllRecipes } from "../Queries/recipeRequest.js";
-import { recipeRating } from "../Queries/scoreRequest.js";
+import { recipeRating, checkRatingGet } from "../Queries/scoreRequest.js";
 
 
 const recipeController = {
@@ -34,6 +34,16 @@ recipeRating: async(req,res) => {
     res.status(500).json({ message: 'Erreur serveur lors de la recherche de l\'utilisateur' });
   }
 }, 
+
+
+checkRatingGet: async(req,res) => {
+  try {
+    await checkRatingGet(req,res);
+  } catch (error) {
+    console.error('Erreur lors de la recherche de l\'utilisateur :', error);
+    res.status(500).json({ message: 'Erreur serveur lors de la recherche de l\'utilisateur' });
+  }
+}
 
 
 };

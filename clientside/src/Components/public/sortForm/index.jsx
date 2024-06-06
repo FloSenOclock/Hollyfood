@@ -33,26 +33,22 @@ const handleCheckboxChange = (e) => {
 };
 
     return (
-        <div>
-                    <section>
-                <form >
+            <section>
+                <form className="flex justify-center my-4 font-medium text-lg">
                     <div>
-                        <label><input type="checkbox" name="serie" checked={checked.serie}  onChange= {handleCheckboxChange} /> serie</label>                        
+                        <label><input className="accent-yellow-400" type="checkbox" name="serie" checked={checked.serie}  onChange= {handleCheckboxChange} /> Série</label>                        
                     </div>
                     <div>
-                        <label><input type="checkbox" name="film" checked={checked.film} onChange={handleCheckboxChange} />film</label>                        
+                        <label><input className="accent-yellow-400" type="checkbox" name="film" checked={checked.film} onChange={handleCheckboxChange} />Film</label>                        
                     </div>
                     <div>
-                        <label><input type="checkbox" name="salé" checked={checked.salé} onChange={handleCheckboxChange} />salé</label>                        
+                        <label><input className="accent-yellow-400" type="checkbox" name="salé" checked={checked.salé} onChange={handleCheckboxChange} />Salé</label>                        
                     </div>
                     <div>
-                        <label><input type="checkbox" name="sucré" checked={checked.sucré} onChange={handleCheckboxChange} />sucré</label>                        
+                        <label><input className="accent-yellow-400" type="checkbox" name="sucré" checked={checked.sucré} onChange={handleCheckboxChange} />Sucré</label>                        
                     </div>
-                    <button type="submit">Trier</button>
-                    <button>Plus de critères</button>
                 </form>
             </section>
-        </div>
     )
 
 };

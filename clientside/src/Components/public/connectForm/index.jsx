@@ -30,6 +30,13 @@ const onSubmit = async (e) => {  // fonction asynchrone pour envoyer les donnée
     try {
             console.log('Réponse de l\'API :', data);
             navigate('/accueil');
+
+                    // Déconnexion automatique après une heure
+        setTimeout(() => {
+            localStorage.removeItem('token');
+            // Rediriger vers la page de connexion ou faire toute autre action nécessaire
+            navigate('/connexion');
+        }, 3600000); // 3 600 000 millisecondes équivalent à une heure, une heure est la durée de vie du token dans le backend.
           } catch (error) {
             // Gérer les erreurs, par exemple afficher un message d'erreur à l'utilisateur
             console.error('Erreur lors de la connexion :', error);    
@@ -41,18 +48,18 @@ return (
         <form onSubmit={onSubmit}>
             <div>
                 <label htmlFor="email">E-mail</label>
-                <input type="email" name="email" id="email" required value={credentials.email} onChange={onChange}/>
+                <input className='bg-yellow-50 rounded-lg border-2 border-yellow-400' type="email" name="email" id="email" required value={credentials.email} onChange={onChange}/>
      
             </div>
             <div>
                 <label htmlFor="password">Mot de passe</label>
-                <input type="password" name="password" id="password" required value={credentials.password} onChange={onChange}/>
+                <input className='bg-yellow-50 rounded-lg border-2 border-yellow-400' type="password" name="password" id="password" required value={credentials.password} onChange={onChange}/>
         
             </div>
             <div>
-            <Link to="/mdp-oublie">Mot de passe oublié ?</Link>
+            <Link className='italic hover:underline hover:underline-offset-4' to="/mdp-oublie">Mot de passe oublié ?</Link>
             </div>
-            <button>Valider</button>
+            <button className='my-4 bg-yellow-400 px-6 py-2 rounded-full font-semibold hover:scale-105 hover:bg-black hover:text-yellow-400'>Valider</button>
         </form>
     </div>
     );

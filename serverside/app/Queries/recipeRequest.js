@@ -50,56 +50,43 @@ const getAllRecipes = async (req, res) => {
 const getOneRecipe = async (req, res) => {
     try {
         const recipeSlug = req.params.slug;
-        const { recipe_id } = req.body; // Récupérer l'ID de la recette à partir du corps de la requête
-        const userId = req.user.id;     // Récupérer l'ID de l'utilisateur à partir de la requête
-        
-        // Récupère la recette avec son slug et inclut les associations
+
+        // Fetch the recipe by slug and include associations
         const recipe = await Recipe.findOne({
             where: { slug: recipeSlug },
             include: [
                 {
                     model: Work,
-                    as: "work",  
+                    as: "work",
                 },
                 {
                     model: Ingredient,
                     through: 'recipe_has_ingredient',
                 },
             ],
-            
-        });       
-        
-        const existingScore = await Score.findOne({
-            where: {
-                recipe_id,
-                user_id: userId
-            }
         });
-        
-        if (existingScore) {
-            setHasRated(true);
-        }
- 
-            const result = await Score.findOne({
-                attributes: [
-                    [Sequelize.fn('AVG', Sequelize.col('rating')), 'averageRating']
-                ],
-                where: {
-                    recipe_id: recipe.id
-                },
-                raw: true
-            });
 
-            // Ajoute la note moyenne à l'objet recette
-            recipe.dataValues.averageRating = result && result.averageRating !== null ? parseFloat(result.averageRating).toFixed(2) : null;
- 
+        const rating = await Score.findOne({
+            attributes: [
+                [Sequelize.fn('AVG', Sequelize.col('rating')), 'averageRating']
+            ],
+            where: {
+                recipe_id: recipe.id
+            },
+            raw: true
+        });
 
-        res.json({ recipe });
+        if (!recipe) {
+            return res.status(404).json({ error: 'Recette non trouvée.' });      }        
+
+        res.json({ recipe, rating: rating && rating.averageRating !== null ? parseFloat(rating.averageRating).toFixed(2) : null});
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Une erreur est survenue lors de la récupération de la recette.' });
     }
 };
+
+
 
 const createRecipe = async (req, res) => {
     try {

@@ -26,10 +26,15 @@ router.get('/recettes', recipeController.getAllRecipes);
 
 // Route pour afficher une recette spécifique en utilisant le slug
 router.get('/recette/:slug', recipeController.getOneRecipe);
+//route pour verifier si un user a noté la recette
+router.get('/recette/:slug/user-rating', jwtToken, recipeController.checkRatingGet);
+//route pour noter une recette
 router.post('/recette/:slug', jwtToken, recipeController.recipeRating);
 
+
+
 // Route pour la vérification de l'email unique
-// router.post('/checkEmail', emailUnique.emailSubForm);
+router.post('/checkEmail', emailUnique);
 // Route pour afficher le formulaire d'inscription
 router.post('/inscription', emailUnique ,authController.processSubForm);
 

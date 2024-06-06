@@ -1,6 +1,7 @@
 import React,{ useContext}  from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Header from '../../Components/public/Header';
+import Breadcrumbs from '../../Components/public/Breadcrumbs';
 import Footer from '../../Components/public/Footer';
 import Card from '../../Components/public/Card';
 import Carrousel from '../../Components/public/carrousel';
@@ -9,7 +10,8 @@ import MyState from '../../Components/public/MyContext';
 
 
 const Layout = () => {
-
+    const location = useLocation();
+    const hideBreadcrumbs = location.pathname.startsWith('/nouveau-mot-de-passe/');
 const {search, recipes} = useContext(MyState)
 
 {/* fonction de filtration pour affichage des recettes selon la recherche */} 
@@ -29,6 +31,7 @@ recipe.Ingredients.some(ingredient => ( // J'utilise la méthode some pour véri
     return (
         <div className='Layout'>
             <Header />
+            {!hideBreadcrumbs && <Breadcrumbs />}
             
             {search ? // Utilisation d'une terner ou si search est vrai en renvoie une liste de recettes en fonction de la barre de recherche
                 <div>
@@ -37,6 +40,7 @@ recipe.Ingredients.some(ingredient => ( // J'utilise la méthode some pour véri
             :  
             <Outlet  /> // Sinon on reste sur l'affichage de base du main
             }
+           
             <Footer />
         </div>
     );

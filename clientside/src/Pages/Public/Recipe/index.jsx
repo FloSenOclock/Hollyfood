@@ -4,53 +4,48 @@ import { useParams } from 'react-router-dom';
 import MyState from '../../../Components/public/MyContext';
 import { RatedBar } from '../../../Components/public/ratingBar';
 import { Rating } from 'react-simple-star-rating';
+import FavButton from '../../../Components/public/Buttons/FavButton';
+import { EmailShareButton, FacebookShareButton, LinkedinShareButton, TwitterShareButton, WhatsappShareButton } from 'react-share';
+import { EmailIcon, FacebookIcon, LinkedinIcon, TwitterIcon, WhatsappIcon } from 'react-share';
 
 const OneRecipe = () => {
-  const { recipe, setRecipe } = useContext(MyState);
-  const [rating, setRating] = useState(0);
-  const [hasRated, setHasRated] = useState(false);
+  const { recipe, setRecipe } = useContext(MyState); // Récupérer la recette et la fonction de définition de la recette
+  const [rating, setRating] = useState(0); // Définir la note de la recette
+  const [hasRated, setHasRated] = useState(false); // Définir si l'utilisateur a déjà noté la recette
   const { slug } = useParams();
+  const shareUrl = window.location.href;
 
-  const isAuthenticated = () => {
+  const isAuthenticated = () => { // Vérifier si l'utilisateur est connecté
     const token = localStorage.getItem('token');
     return !!token;
   };
 
   const getOneRecipe = async () => {
     try {
-      const data = await apiFetch(`recette/${encodeURIComponent(slug)}`, {}, 'GET');
-      setRecipe(data.recipe);
-      setRating(data.recipe.averageRating);
-      const existingScore = await apiFetch(`recette/${encodeURIComponent(slug)}`, {}, 'GET');
-      setHasRated(existingScore.exists);
+      const data = await apiFetch(`recette/${encodeURIComponent(slug)}`, {}, 'GET'); // Récupérer les détails de la recette
+      setRecipe(data.recipe); // Mettre à jour la recette
+      setRating(data.rating); // Mettre à jour la note de la recette
+
+      if (isAuthenticated()) {
+        const userRatingResponse = await apiFetch(`recette/${encodeURIComponent(slug)}/user-rating`, {}, 'GET'); // Vérifier si l'utilisateur a déjà noté la recette
+        if (userRatingResponse && userRatingResponse.hasRated) { // Si l'utilisateur a déjà noté la recette
+          setHasRated(true);  // Mettre hasRated à true
+        }
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleRatingClick = useCallback(async (value) => {
-    console.log('Valeur de l\'étoile cliquée :', value);
-    setRating(value);
-
-    if (!recipe) {
-      console.error('Recette non définie');
-      return;
-    }
-
+    setRating(value); // Mettre à jour la note de la recette
     try {
-      const encodedSlug = encodeURIComponent(slug);
-      const response = await apiFetch(`recette/${encodedSlug}`, { recipe_id: recipe.id, rating: value }, 'POST');
-      
-      if (response.ok) {
-        console.log('Rating submitted successfully');
-        setHasRated(true); // Set hasRated to true after rating
-        await getOneRecipe(); // Re-fetch recipe to update rating
+      const response = await apiFetch(`recette/${encodeURIComponent(slug)}`, { recipe_id: recipe.id, rating: value }, 'POST'); // Noter la recette
+      if (response) {
+        setHasRated(true); // Mettre hasRated à true après avoir noté
+        await getOneRecipe(); // Recharger la recette pour mettre à jour la note
       } else {
-        console.error('Error submitting rating');
-        const responseData = await response.json();
-        if (responseData.error === "Vous avez déjà noté la recette.") {
-          setHasRated(true);
-        }
+        console.error('Erreur lors de la soumission de la note');
       }
     } catch (error) {
       console.error(error);
@@ -58,28 +53,28 @@ const OneRecipe = () => {
         setHasRated(true);
       }
     }
-  }, [recipe, slug]);
+  }, [recipe, slug, hasRated]);
 
   useEffect(() => {
     getOneRecipe();
   }, [slug]);
 
-  
   return (
-    <div>
-      <h2>{recipe?.name}</h2>
-      <div className='touch-none'>
+    <main className='flex flex-col mb-2'>
+      <h2 className="text-xl font-medium my-2 text-center uppercase">{recipe?.name}</h2>
+      <div className='sm:flex'>
+      <div className='touch-none text-center justify-center'>
         {isAuthenticated() ? (
           hasRated ? (
-            <RatedBar score={recipe?.averageRating} />
+            <RatedBar score={rating} />
           ) : (
             <Rating
               initialValue={rating}
-              Name="Control"
+              name="Control"
               emptyStyle={{ display: "flex" }}
               SVGstyle={{ display: "inline-block", marginBottom: 5 }}
               style={{ marginBottom: -5 }}
-              allowFraction={true}
+              allowFraction={false}
               allowHover={false}
               disableFillHover={true}
               size={25}
@@ -87,23 +82,23 @@ const OneRecipe = () => {
             />
           )
         ) : (
-          <RatedBar score={recipe?.averageRating} />
+          <RatedBar score={rating} />
         )}
+            <img className='size-11/12 rounded-lg ml-4 shadow-lg shadow-slate-300 mb-4' src={recipe?.picture} alt="image de la recette" />
       </div>
-      <section>
-        <img src={recipe?.picture} alt="image de la recette" />
-        <p>{recipe?.quote}</p>
-        <p>{recipe?.total_time}</p>
-      </section>
-      <section>
+      <section className='mx-2 text-center sm:mt-8'>
+        <p className='italic mb-2 md:mt-8 lg:mt-12 xl:mt-20 2xl:mt-32'><span className='font-medium'>Anecdote:  </span>{recipe?.quote}</p>
+        <hr className='h-px my-8 bg-yellow-400 border-0' />
+        <p><span className='font-medium'>Temps de préparation:  </span> {recipe?.total_time}</p>
         <div>
-          <button>-</button>
-          <p>{recipe?.servings}</p>
-          <button>+</button>
-          <div>{recipe?.difficulty}</div>
+          <p><span className='font-medium'>Nombre de personnes:</span> {recipe?.servings}</p>
+          <div><span className='font-medium'>Difficulté : </span><span className="bg-gradient-to-r from-yellow-400 via-yellow-100 to-yellow-400 px-2 ">{recipe?.difficulty} </span></div>
         </div>
-        <div>
-          <h3>Ingrédients :</h3>
+      </section>    
+      </div>
+      <section className='mx-2 text-center sm:mt-8'>
+        <div className='text-start my-2' >
+          <h3 className='font-medium mb-2'>Liste des ingrédients :</h3>
           <ul>
             {recipe?.ingredients?.map((ingredient, index) => (
               <li key={index}>
@@ -113,19 +108,28 @@ const OneRecipe = () => {
           </ul>
         </div>
       </section>
-      <section>
-        <h3>Instructions</h3>
+      <section className='mx-2'>
+        <h3 className='font-medium mb-2' >Instructions :</h3>
         <p>{recipe?.instruction}</p>
-        <div>Ajoutez aux favoris</div>
-        <div>Partagez</div>
+        <hr className='h-px my-8 bg-yellow-400 border-0' />
+        <div className='text-center my-4'><FavButton recipeId={recipe.id}/></div>
+   
+        <div className='flex justify-center my-8'>
+        <span className='font-medium mx-2'>Partagez : </span>
+        <TwitterShareButton className='mx-2' url={shareUrl}><TwitterIcon size={32} round={true} /></TwitterShareButton>
+        <FacebookShareButton className='mx-2' url={shareUrl}><FacebookIcon size={32} round={true} /></FacebookShareButton>
+        <WhatsappShareButton className='mx-2' url={shareUrl}><WhatsappIcon size={32} round={true} /></WhatsappShareButton>
+        <LinkedinShareButton className='mx-2' url={shareUrl}><LinkedinIcon size={32} round={true} /></LinkedinShareButton> 
+        <EmailShareButton className='mx-2' url={shareUrl}><EmailIcon size={32} round={true} /></EmailShareButton>
+        </div>
       </section>
-      <section>
+      <section className='text-center'>
         {/* Ici s'affichent les commentaires de la recette */}
-        <div>Commentaire</div>
-        <button>Afficher plus</button>
+        <div className=''>Commentaire</div>
+        <button className='mx-2'>Afficher plus</button>
         <button>Ajouter un commentaire</button>
       </section>
-    </div>
+    </main>
   );
 };
 

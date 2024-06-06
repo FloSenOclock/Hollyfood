@@ -1,11 +1,47 @@
 import React from 'react';
 import FavCard from './favCard';
+import Slider from "react-slick";
 
-const FavCarrousel = ({ favorites }) => {
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+const FavCarrousel = ({ favorites, slider }) => {
+
+  const settings = {
+    accessibility:true,
+    arrows: false,
+    infinite: false,
+    dots: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,      
+    responsive: [
+        {
+            breakpoint: 1280,
+            settings: {
+              slidesToShow: 3,
+            }
+          },
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 2,
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            
+          }
+        }
+      ]
+  };
+
   return (
-    <div>
-      <h2>My Favorite Recipes</h2>
-      <div className="carrousel flex">
+   
+      <div>
+      <Slider ref={slider} {...settings}> 
         {favorites.map((favorite) => (
           <FavCard
             key={favorite.id}
@@ -14,8 +50,8 @@ const FavCarrousel = ({ favorites }) => {
             id={favorite.id}
           />
         ))}
+         </Slider>
       </div>
-    </div>
   );
 };
 
