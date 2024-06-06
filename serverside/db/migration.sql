@@ -73,7 +73,6 @@ CREATE TABLE "recipe" (
 CREATE TABLE "comment" (
    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
    "description" TEXT NOT NULL,
-   "date" DATE NOT NULL,
    "recipe_id" INTEGER REFERENCES "recipe"("id") NOT NULL,
    "user_id" INTEGER REFERENCES "user"("id") NOT NULL,
    "createdAt" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
