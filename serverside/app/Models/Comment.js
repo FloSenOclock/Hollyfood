@@ -10,10 +10,6 @@ Comment.init({
         allowNull: false,
     },
 
-    date: {
-        type: DataTypes.DATE,
-        allowNull: false,
-    }
 }, {
     sequelize,
     modelName: "Comment",

@@ -1,3 +1,4 @@
+import { addComment, deleteComment, getComments, updateComment } from "../Queries/commentRequest.js";
 import { getOneRecipe, getAllRecipes } from "../Queries/recipeRequest.js";
 import { recipeRating, checkRatingGet } from "../Queries/scoreRequest.js";
 
@@ -43,8 +44,43 @@ checkRatingGet: async(req,res) => {
     console.error('Erreur lors de la recherche de l\'utilisateur :', error);
     res.status(500).json({ message: 'Erreur serveur lors de la recherche de l\'utilisateur' });
   }
-}
+},
 
+getComments: async(req,res) => {
+  try {
+    await getComments(req,res);
+  } catch (error) {
+    console.error('Erreur lors de la recherche de l\'utilisateur :', error);
+    res.status(500).json({ message: 'Erreur serveur lors de la recherche de l\'utilisateur' });
+  }
+},
+
+getAddComment: async(req,res) => {
+  try {
+    await addComment(req,res);
+  } catch (error) {
+    console.error('Erreur lors de la recherche de l\'utilisateur :', error);
+    res.status(500).json({ message: 'Erreur serveur lors de la recherche de l\'utilisateur' });
+  }
+},
+
+getUpdateComment: async (req,res) => {
+  try {
+    await updateComment(req,res);
+  } catch (error) {
+    console.error('Erreur lors de la recherche de l\'utilisateur :', error);
+    res.status(500).json({ message: 'Erreur serveur lors de la recherche de l\'utilisateur' });
+  }
+},
+
+getDeleteComment: async (req,res) => {
+  try {
+    await deleteComment(req,res);
+  } catch (error) {
+    console.error('Erreur lors de la recherche de l\'utilisateur :', error);
+    res.status(500).json({ message: 'Erreur serveur lors de la recherche de l\'utilisateur' });
+  }
+},
 
 };
 

@@ -27,7 +27,7 @@ const ForgotPassword = () => {
     
 
     return (
-        <main className='flex flex-col text-center items-center mb-48'>
+        <main className='flex flex-col text-center items-center'>
             <h2 className="text-lg font-medium my-2 underline underline-offset-4">Mot de passe oublié</h2>
             <form onSubmit={onSubmit}>
                 <div>

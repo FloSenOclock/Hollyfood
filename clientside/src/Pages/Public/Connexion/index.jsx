@@ -3,7 +3,7 @@ import ConnectForm from "../../../Components/public/connectForm"
 
 const Connect = () => {
     return (
-        <main className='flex flex-col text-center mb-20'>
+        <main className='flex flex-col text-center'>
         <fieldset className="text-center mb-2">
             <legend className="text-lg font-medium my-2 underline underline-offset-4">Connexion</legend>
             < ConnectForm />

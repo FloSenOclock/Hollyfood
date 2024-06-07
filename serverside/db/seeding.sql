@@ -12,7 +12,6 @@ VALUES
   ('membre'),
   ('admin');
   
-  
 INSERT INTO "user"
   ( "name","firstname","email","password", "role_id")
 VALUES
@@ -60,7 +59,7 @@ VALUES
   ('Chocolat chaud à la cannelle de la famille Charmant','Chocolat chaud à la cannelle de la famille Charmant', 'Dans la série, le chocolat chaud à la cannelle est souvent mentionné comme une boisson réconfortante et magique, souvent préparée par Mary Margaret ', 'https://img', '1- Dans une casserole à feu moyen, faites chauffer le lait jusqu''à ce qu''il soit chaud mais pas bouillant.', '1:00:00', 1, 'Facile',  4, 1);
 
 INSERT INTO "comment"
-  ( "description", "recipe_id", "user_id")
+  ( "description","recipe_id", "user_id")
 VALUES
   ('Lorem', 1, 1);
  

@@ -20,7 +20,7 @@ const ResetPassword = () => {
     }
 
     return (
-        <main className='flex flex-col text-center mb-48'>
+        <main className='flex flex-col text-center'>
             <h2 className="text-lg font-medium my-2 underline underline-offset-4">Réinitialisation du mot de passe</h2>
             <form onSubmit={onSubmit}>
                 <div>

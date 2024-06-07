@@ -4,12 +4,14 @@ import { useParams } from 'react-router-dom';
 import MyState from '../../../Components/public/MyContext';
 import { RatedBar } from '../../../Components/public/ratingBar';
 import { Rating } from 'react-simple-star-rating';
+import AllComment from '../../../Components/public/CommentList';
+
 import FavButton from '../../../Components/public/Buttons/FavButton';
 import { EmailShareButton, FacebookShareButton, LinkedinShareButton, TwitterShareButton, WhatsappShareButton } from 'react-share';
 import { EmailIcon, FacebookIcon, LinkedinIcon, TwitterIcon, WhatsappIcon } from 'react-share';
 
 const OneRecipe = () => {
-  const { recipe, setRecipe } = useContext(MyState); // Récupérer la recette et la fonction de définition de la recette
+  const { recipe, setRecipe, setComments} = useContext(MyState); // Récupérer la recette et la fonction de définition de la recette
   const [rating, setRating] = useState(0); // Définir la note de la recette
   const [hasRated, setHasRated] = useState(false); // Définir si l'utilisateur a déjà noté la recette
   const { slug } = useParams();
@@ -57,7 +59,10 @@ const OneRecipe = () => {
 
   useEffect(() => {
     getOneRecipe();
-  }, [slug]);
+  }, [slug, setComments]);
+
+
+
 
   return (
     <main className='flex flex-col mb-2'>
@@ -100,7 +105,7 @@ const OneRecipe = () => {
         <div className='text-start my-2' >
           <h3 className='font-medium mb-2'>Liste des ingrédients :</h3>
           <ul>
-            {recipe?.ingredients?.map((ingredient, index) => (
+            {recipe?.Ingredients?.map((ingredient, index) => (
               <li key={index}>
                 {ingredient.quantity} {ingredient.name}
               </li>
@@ -125,9 +130,8 @@ const OneRecipe = () => {
       </section>
       <section className='text-center'>
         {/* Ici s'affichent les commentaires de la recette */}
-        <div className=''>Commentaire</div>
-        <button className='mx-2'>Afficher plus</button>
-        <button>Ajouter un commentaire</button>
+        <h2>Commentaire : </h2>
+        <AllComment/>
       </section>
     </main>
   );

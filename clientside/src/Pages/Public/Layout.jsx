@@ -29,7 +29,7 @@ recipe.Ingredients.some(ingredient => ( // J'utilise la méthode some pour véri
 
 
     return (
-        <div className='Layout'>
+        <div className='Layout min-h-screen flex flex-col'>
             <Header />
             {!hideBreadcrumbs && <Breadcrumbs />}
             

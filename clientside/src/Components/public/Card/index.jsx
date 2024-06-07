@@ -7,7 +7,7 @@ import { RatedBar } from "../ratingBar";
 
 const Card = ({ score, picture, name, difficulty, slug, workTitle, id }) => {
   return (
-    <section className="mx-16 mb-4 pb-2 sm:flex-col lg:flex lg:mx-24 shadow-xl size-fit rounded-lg">
+    <section className="mx-12 mb-4 pb-2 sm:flex-col lg:flex  shadow-xl size-fit rounded-lg">
       <article className="flex flex-col">
         <RatedBar score={score} />
         <Link to={`/recette/${slug}`}>

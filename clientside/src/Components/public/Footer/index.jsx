@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
     return (
-        <footer>
+        <footer className='mt-auto'>
             <div className="text-center bg-black text-white py-8 items-center">
                 <Link className='hover:underline' to="/contact">Nous contacter</Link>
                 <span> - </span> 

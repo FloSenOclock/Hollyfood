@@ -26,12 +26,15 @@ router.get('/recettes', recipeController.getAllRecipes);
 
 // Route pour afficher une recette spécifique en utilisant le slug
 router.get('/recette/:slug', recipeController.getOneRecipe);
+// Route pour afficher les commentaires d'une recette
+router.get('/recette/:slug/comments', recipeController.getComments)
+router.post('/recette/:slug/comments',jwtToken, recipeController.getAddComment)
+router.put('/recette/:slug/comments/:id',jwtToken, recipeController.getUpdateComment)
+router.delete('/recette/:slug/comments/:id',jwtToken, recipeController.getDeleteComment)
 //route pour verifier si un user a noté la recette
 router.get('/recette/:slug/user-rating', jwtToken, recipeController.checkRatingGet);
 //route pour noter une recette
 router.post('/recette/:slug', jwtToken, recipeController.recipeRating);
-
-
 
 // Route pour la vérification de l'email unique
 router.post('/checkEmail', emailUnique);

@@ -31,8 +31,13 @@ const PublicRouter = () => {
   const [favorites, setFavorites] = useState([]); // Recettes favorites de l'utilisateur
   const [nameEdit, setNameEdit] = useState(""); // On stock la string qui sera dans le champs name du profil
   const [firstnameEdit, setFirstnameEdit] = useState("");// On stock la string qui sera dans le champs firstname du profil
-  const [updateName, setUpdateName] = useState(false);// Je controle que la mise à jour pour le name est vrai ou non 
-  const [updateFirstname, setUpdateFirstname] = useState(false);// Je controle que la mise à jour pour le firstname est vrai ou non 
+  const [updateName, setUpdateName] = useState(false);// Je controle que la mise à jour pour le name est valider
+  const [updateFirstname, setUpdateFirstname] = useState(false);// Je controle que la mise à jour pour le firstname est valider 
+  const [comments, setComments] = useState([])
+  const [postContent, setPostContent] = useState("");
+  const [isValid, setIsValid] = useState(false)
+  const [updateComment, setUpdateComment] = useState(false);
+  const [newComment, setNewComment] = useState('');
   const location= useLocation(); // On utilise le hook useLocation pour récupérer la location de la page
 
 
@@ -47,7 +52,7 @@ const PublicRouter = () => {
   
     return (
       <MyState.Provider value={{
-        recipes , setRecipes , recipe , setRecipe , search , setSearch, checked, setChecked, user, setUser, favorites, setFavorites, nameEdit, setNameEdit, firstnameEdit, setFirstnameEdit, updateName, setUpdateName, updateFirstname, setUpdateFirstname
+        recipes , setRecipes , recipe , setRecipe , search , setSearch, checked, setChecked, user, setUser, favorites, setFavorites, nameEdit, setNameEdit, firstnameEdit, setFirstnameEdit, updateName, setUpdateName, updateFirstname, setUpdateFirstname, comments, setComments, postContent, setPostContent, isValid, setIsValid, updateComment, setUpdateComment, newComment, setNewComment
         }} >
         <Routes>
           <Route element={<Layout />}>
