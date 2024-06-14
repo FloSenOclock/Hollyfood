@@ -14,7 +14,7 @@ const profilController =  {
         }
     },
 
-    getupdateUser: async(req,res) =>{
+    updateUser: async(req,res) =>{
 
         try {
             await updateUser(req,res);

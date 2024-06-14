@@ -1,4 +1,4 @@
-import {useContext, useEffect} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import day from 'dayjs';
 import MyState from '../MyContext';
@@ -9,6 +9,7 @@ import {jwtDecode} from 'jwt-decode'
 const AllComment = () => {
     
     const {comments, setComments, newComment, setNewComment} = useContext(MyState);
+    const [creatComment, setCreateComment] = useState("");
  
     
     const {slug} = useParams()
@@ -29,7 +30,7 @@ const AllComment = () => {
     const userId = getUserIdFromToken();
 
     const getAllComment = async () => {
-        const data = await apiFetch(`recette/${encodeURIComponent(slug)}/comments`, {}, 'GET')
+        const data = await apiFetch(`recettes/${encodeURIComponent(slug)}/comments`, {}, 'GET')
         setComments(data);
     }
 
@@ -43,17 +44,17 @@ const AllComment = () => {
         }
 
         const commentData = { 
-            description: newComment,
+            description: creatComment,
             user_id: userId,
         };
 
 
         try {
-            const data = await apiFetch(`recette/${encodeURIComponent(slug)}/comments`, commentData , 'POST');
+            const data = await apiFetch(`recettes/${encodeURIComponent(slug)}/comments`, commentData , 'POST');
     
             if (data && data.id) {
                 setComments(prevComments => [...prevComments, data]);
-                setNewComment(''); // Clear the comment input field
+                setCreateComment(''); // Clear the comment input field
             } else {
                 console.error("Erreur lors de l'ajout du commentaire :", data.message);
             }
@@ -73,14 +74,14 @@ const AllComment = () => {
         };
         console.log(updateCommentData);
         try {
-            const data = await apiFetch(`recette/${encodeURIComponent(slug)}/comments/${commentId}`, updateCommentData , 'PUT');
+            const data = await apiFetch(`recettes/${encodeURIComponent(slug)}/comments/${commentId}`, updateCommentData , 'PUT');
             if (data ) {
                 setComments(prevComments =>
                     prevComments.map(comment =>
                         comment.id === commentId ? { ...comment, description: newComment } : comment
                     )
                 );
-                setNewComment(''); // Réinitialiser la valeur de newComment
+                // setNewComment(''); // Réinitialiser la valeur de newComment
             } else {
                 console.error("Erreur lors de la modification du commentaire :", "La mise à jour du commentaire a échoué.");
             }
@@ -99,7 +100,7 @@ const AllComment = () => {
 
 
         try {
-            const data = await apiFetch(`recette/${encodeURIComponent(slug)}/comments/${commentId}`, {}, 'DELETE');
+            const data = await apiFetch(`recettes/${encodeURIComponent(slug)}/comments/${commentId}`, {}, 'DELETE');
             console.log(data);
             if (data && data.success) {
                 // Met à jour l'état global en filtrant le commentaire supprimé
@@ -120,14 +121,14 @@ const AllComment = () => {
     }, [slug])
 
     return (
-        <div>
-            <ul>
+        <div className='flex flex-col items-center w-full'>
+            <ul className='flex flex-col items-center w-full'>
             {comments.length > 0 ? (
                     comments.map((comment, index) => (
                         <Comment
                             key={index}
                             description={comment.description}
-                            createdAt={day(comment.createdAt).format("YYYY MM DD HH:mm:ss")}
+                            createdAt={day(comment.createdAt).format("YYYY/MM/DD HH:mm:ss")}
                             onDelete={() => deleteComment(comment.id)}
                             onUpdate={() => updateComment(comment.id, newComment)}
                         />
@@ -136,22 +137,20 @@ const AllComment = () => {
                     <p>Aucun commentaire ...</p>
                 )}
             </ul>
-            <div>
-                {userId ? 
-                    <form onSubmit={addComment}>
+            <div className='flex flex-col items-center m-4 w-full' >
+                {userId && 
+                    <form className='flex flex-col items-center w-full max-w-xl md:max-w-2xl ' onSubmit={addComment}>
                     <textarea
-                        value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
-                        placeholder="Ajouter un commentaire"
+                        className='border-4 border-black-400 rounded-lg p-2 w-4/5 h-max mb-2 md:w-full'
+                        value={creatComment}
+                        onChange={(e) => setCreateComment(e.target.value)}
+                        placeholder="Ajouter un commentaire ..."
                         required
                     ></textarea>
-                    <button type="submit">Ajouter</button>
+                    <button className='bg-yellow-400 px-2 m-1 w-1/4  rounded-full font-semibold hover:scale-105 hover:bg-black hover:text-yellow-400' type="submit">Ajouter</button>
                     </form>  
-                :
-                    null
                 }
-            </div>
-           
+            </div>           
         </div>
      
     )

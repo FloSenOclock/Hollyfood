@@ -25,7 +25,7 @@ const PublicRouter = () => {
 
   const [recipes, setRecipes] = useState([]); // On crée une state recipes pour stocker les recettes
   const [recipe, setRecipe] = useState(""); // On crée une state recipe pour stocker une recette
-  const [checked, setChecked] = useState({serie: false, film: false, salé: false, sucré:false}) // On crée une state checked pour stocker les filtres
+  const [checked, setChecked] = useState({Série: false, Film: false, Salé: false, Sucré:false}) // On crée une state checked pour stocker les filtres
   const [search, setSearch] = useState(""); // On crée une state search pour stocker la recherche
   const [user, setUser] = useState({}); // Informations de l'utilisateur
   const [favorites, setFavorites] = useState([]); // Recettes favorites de l'utilisateur
@@ -69,7 +69,7 @@ const PublicRouter = () => {
             <Route path="/plandusite" element={<SiteMap />} />
             <Route path="/profil" element={<Profile />} />
             <Route path="/recettes" element={<Recipes />} />
-            <Route path="/recette/:slug" element={<OneRecipe />} />
+            <Route path="/recettes/:slug" element={<OneRecipe />} />
     
 
             <Route path="*" element={<NotFound />} />

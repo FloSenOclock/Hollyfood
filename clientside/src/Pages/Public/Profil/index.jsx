@@ -3,6 +3,7 @@ import FavCarrousel from "../../../Components/public/favCarrousel";
 import apiFetch from "../../../Utils/apiFetch";
 import MyState from "../../../Components/public/MyContext";
 import { Link } from "react-router-dom";
+import PaginateCard from "../../../Components/public/PaginateCard";
 
 const Profile = () => {
   const {
@@ -20,10 +21,10 @@ const Profile = () => {
     setUpdateFirstname,
   } = useContext(MyState);
 
+
   const [nameError, setNameError] = useState("");
   const [firstnameError, setFirstnameError] = useState("");
-  const slider3 = React.createRef();
-
+  
   const getUser = async () => {
     // Fonction pour obtenir les informations de l'utilisateur
     try {
@@ -114,7 +115,7 @@ const Profile = () => {
 
   return (
     <main>
-      <section className="flex flex-col text-center mb-8 ">
+      <section className="flex flex-col  items-center mb-8 w-full ">
         <h2 className="text-lg font-medium my-8 underline underline-offset-4">
           Profil
         </h2>
@@ -206,53 +207,20 @@ const Profile = () => {
         </div>
 
         {
-          user.role_id === 2 ? ( // Si l'utilisateur est connecter entant que admin
-            <button className="my-4 bg-yellow-400 px-6 py-2 rounded-full font-semibold hover:scale-105 hover:bg-black hover:text-yellow-400">
+          user.role_id === 2 && ( // Si l'utilisateur est connecter entant que admin
+            <button className="my-4 mx-4 w-96 bg-yellow-400  px-6 py-2 rounded-full font-semibold hover:scale-105 hover:bg-black hover:text-yellow-400">
               {/* // Un Bouton renvoie un lien vers la page admin */}
-              <Link to="/accueil">Dashbord Admin</Link>
+              <Link to="/admin/dashboard">Dashbord Admin</Link>
               {/* Modifier la route par admin user une fois celle-ci crée*/}
             </button>
-          ) : // sinon
-          null // la page est rendu par default
+          )
         }
       </section>
       <hr className="h-px my-4 bg-yellow-400 border-0"/>
       {/* Passer les recettes favorites à FavCarrousel */}
-      <section className="flex flex-col justify-center">
+      <section className="flex flex-col justify-center text-center">
       <h3 className='text-center font-semibold underline underline-offset-4 mb-4'>Mes recettes préférées</h3>
-      <FavCarrousel  slider={slider3} favorites={favorites} />
-      <div className="z-100 flex justify-center my-8">
-            <div className="mx-2">
-              <button
-                className="bg-yellow-400 rounded-full hover:scale-110 p-1 shadow-lg shadow-yellow-600"
-                onClick={() => slider3?.current?.slickPrev()}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="size-8"
-                >
-                  <path d="M9.195 18.44c1.25.714 2.805-.189 2.805-1.629v-2.34l6.945 3.968c1.25.715 2.805-.188 2.805-1.628V8.69c0-1.44-1.555-2.343-2.805-1.628L12 11.029v-2.34c0-1.44-1.555-2.343-2.805-1.628l-7.108 4.061c-1.26.72-1.26 2.536 0 3.256l7.108 4.061Z" />
-                </svg>
-              </button>
-            </div>
-            <div className="mx-2">
-              <button
-                className="bg-yellow-400 rounded-full hover:scale-110 p-1 shadow-lg shadow-yellow-600"
-                onClick={() => slider3?.current?.slickNext()}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="size-8"
-                >
-                  <path d="M5.055 7.06C3.805 6.347 2.25 7.25 2.25 8.69v8.122c0 1.44 1.555 2.343 2.805 1.628L12 14.471v2.34c0 1.44 1.555 2.343 2.805 1.628l7.108-4.061c1.26-.72 1.26-2.536 0-3.256l-7.108-4.061C13.555 6.346 12 7.249 12 8.689v2.34L5.055 7.061Z" />
-                </svg>
-              </button>
-            </div>
-      </div>
+      <PaginateCard recipes={favorites}/>
       </section>
     </main>
   );

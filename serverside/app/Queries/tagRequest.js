@@ -54,26 +54,28 @@ const createTag = async (req, res) => {
 
 
 const updateTag = async (req, res) => {
+    const { id} = req.params;
+    const {name} = req.body;
+
     try {
-        // J'appelle les proprietés de mon formulaire
-        const { name } = req.body;
-  
-        // Je recherche dans ma base de donnée si un tag correspond à l'id
-        const tag = await Tag.findOne({ where: { name: name } });
-
-        // Si le tag est trouvé je mets à jour la ou les propriété(s) 
-        if (tag) {
-            await tag.update({
-                name: name
-            });
-
-            // Je vais recherchez à nouveau le tag pour vérifier et obtenir les dernières mises à jour de ma base de donnée 
-            const updatedTag = await Tag.findOne({ where: { name: name } });
+    
+        const tag = await Tag.findByPk(id, {
+            include: [
+                {
+                    model: Recipe,
+                    through: 'recipe_has_tag'
+                }
+            ]
             
-            res.json({ updatedTag});
-        } else {
-            res.status(404).json({ error: 'Tag non trouvé' });
-        }
+        });
+        
+            await tag.update({
+                name
+            }, {
+                where: {id: id}
+            });
+            
+            res.json({ tag });
 
     } catch (error) {
         console.error(error);
@@ -84,17 +86,20 @@ const updateTag = async (req, res) => {
 // Fonction pour supprimer un tag
 const deleteTag = async (req, res) => {
     try {
-        const { title } = req.body
-        const tagRemoved = await Tag.destroy({
-            where: {
-                title: title
-            }
-        });
-        res.json({ tagRemoved });
+        const {id} = req.params; // ID du commentaire à supprimer
+
+        // Rechercher le commentaire par son ID
+        const tag = await Tag.findByPk(id);
+
+        // Supprimer le recette
+        await tag.destroy();
+
+        // Retourner une réponse réussie
+        return res.status(200).json({ success: true, message: "recette supprimé avec succès." });
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Une erreur est survenue lors de la suppression du tag.' });
+        return res.status(500).json({ success: false, error: "Une erreur est survenue lors de la suppression du recette." });
     }
 };
 

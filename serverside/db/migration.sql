@@ -2,7 +2,7 @@ BEGIN;
 
 SET CLIENT_ENCODING TO 'UTF-8';
 
-DROP TABLE IF EXISTS "user", "role", "comment", "recipe", "ingredient", "work", "tag", "proportion","score", "favorite", "recipe_has_ingredient", "ingredient_has_proportion", "recipe_has_tag" CASCADE;
+DROP TABLE IF EXISTS "user", "role", "comment", "recipe", "ingredient", "work", "tag","score", "favorite", "recipe_has_ingredient", "recipe_has_tag" CASCADE;
 
 
 CREATE TABLE "ingredient" (
@@ -14,41 +14,36 @@ CREATE TABLE "ingredient" (
 
 CREATE TABLE "work" (
    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-   "title" TEXT NOT NULL,
+   "title" TEXT NOT NULL UNIQUE,
    "synopsis" TEXT NOT NULL,
+   "quote" TEXT,
+   "picture" TEXT,
    "createdAt" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
    "updatedAt" TIMESTAMPTZ
 );
 
 CREATE TABLE "role" (
    "id"  INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-   "name" VARCHAR(255) NOT NULL,
+   "name" TEXT NOT NULL,
    "createdAt" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
    "updatedAt" TIMESTAMPTZ
 );
 
-CREATE TABLE "proportion" (
-   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-   "quantity" INTEGER NOT NULL,
-   "unit" TEXT NOT NULL,
-   "createdAt" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-   "updatedAt" TIMESTAMPTZ
-);
 
 CREATE TABLE "tag" (
    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-   "name" TEXT NOT NULL,
+   "name" TEXT NOT NULL UNIQUE,
    "createdAt" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
    "updatedAt" TIMESTAMPTZ
 );
 
 CREATE TABLE "user" (
    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-   "name" VARCHAR(255) NOT NULL,
-   "firstname" VARCHAR(255) NOT NULL,
+   "name" TEXT NOT NULL,
+   "firstname" TEXT NOT NULL,
    "avatar" TEXT,
-   "email" VARCHAR(255) UNIQUE NOT NULL,
-   "password" VARCHAR(255) NOT NULL,
+   "email" TEXT UNIQUE NOT NULL,
+   "password" TEXT NOT NULL,
    "role_id" INTEGER REFERENCES "role"("id") NOT NULL DEFAULT 1,
    "createdAt" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
    "updatedAt" TIMESTAMPTZ
@@ -56,9 +51,9 @@ CREATE TABLE "user" (
 
 CREATE TABLE "recipe" (
     "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "slug" VARCHAR(255) NOT NULL,
-    "name" VARCHAR(255) NOT NULL,
-    "quote" TEXT NOT NULL,
+    "slug" TEXT NOT NULL UNIQUE,
+    "name" TEXT NOT NULL UNIQUE,
+    "description" TEXT NOT NULL,
     "picture" TEXT NOT NULL,
     "instruction" TEXT NOT NULL,
     "total_time" TIME NOT NULL ,
@@ -97,14 +92,6 @@ CREATE TABLE "recipe_has_ingredient" (
    "updatedAt" TIMESTAMPTZ
 );
 
-CREATE TABLE "ingredient_has_proportion" (
-   "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-   "ingredient_id" INTEGER REFERENCES "ingredient"("id") NOT NULL,
-   "proportion_id" INTEGER REFERENCES "proportion"("id") NOT NULL,
-   "createdAt" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-   "updatedAt" TIMESTAMPTZ
-);
-
 CREATE TABLE "favorite"(
    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
    "user_id" INTEGER REFERENCES "user"("id") NOT NULL,
@@ -112,7 +99,6 @@ CREATE TABLE "favorite"(
    "createdAt" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
    "updatedAt" TIMESTAMPTZ
 );
-
 
 
 CREATE TABLE "recipe_has_tag" (

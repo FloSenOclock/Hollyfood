@@ -41,10 +41,7 @@ const Breadcrumbs = () => {
                     let routeTo = `/${pathnames.slice(0, index + 1).join('/')}`;
                     
                     let title = convertSlugToTitle(value);
-                    if (value.toLowerCase() === 'recette') {
-                        title = 'Recettes';
-                        routeTo = '/recettes';
-                    }
+                
 
                     return (
                         <li className='mt-1 mx-1' key={routeTo}>

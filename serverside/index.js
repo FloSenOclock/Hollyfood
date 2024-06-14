@@ -1,4 +1,3 @@
-import pkg from 'pg'
 import express from 'express';
 import * as dotenv from 'dotenv';
 import router from './app/router.js';
@@ -32,4 +31,3 @@ app.use('/api', router);
 app.listen(port, () => {
     console.log(`Listening on http://localhost:${port}/`);
   });
-   

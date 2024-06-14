@@ -6,50 +6,13 @@ import * as dotenv from 'dotenv';
 dotenv.config()
 
 const isAdmin = async (req,res,next) => {
-
-        // Je controle si un token est bien dans le headers
-        // Récupérer le token JWT depuis le header Authorization
-        const token = req.headers.authorization
-        
-      
-        // Vérifier si le token JWT est présent
-        if (token) {
-    
-            const tokenVerif = token.split('Bearer')[1].trim();
-            
-            try {
-                // Vérifier et décoder le token JWT
-                const decoded = jwt.verify(tokenVerif, process.env.SECRET_TOKEN);
-
-                console.log(decoded);
-
-                // On décode le playload
-                const userId = decoded.userId;
-                const userRole = decoded.userRole;
-
-                req.user = {
-                    id: userId,
-                    role: userRole
-                } 
-
+                console.log(req.user)   
                 // Si le role est bien un admin passer au prochain middleware ou à la route suivante
-                if (userRole === 2) {
+                if (req.user.role === 2) {
                     next();
                 } else {
                     res.status(403).json({ message: 'Rôle non autorisé' });
                 }
-                   
-             
-
-            } catch (error) {
-                // Si une erreur se produit lors de la vérification du token JWT
-                res.status(401).json({ message: 'Token JWT invalide' });
-            }
-
-
-        } else {
-            res.status(403).json({message: 'Aucun Token existant'})
-        };
 };
 
 

@@ -1,10 +1,11 @@
-import {User, Role}from "../Models/index.js";
+import {User, Role,  Favorite, Score}from "../Models/index.js";
+
 
 // Fonction pour obtenir tous les utilisateurs
-const getAllUsers = async (req,res)=> {
+const getAllUsers = async (req, res) => {
     try {
         const users = await User.findAll(); // Trouver tous les utilisateurs
-        res.json({ users });                // Renvoyer tous les utilisateurs
+        return users               // Renvoyer tous les utilisateurs
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Une erreur est survenue lors de la récupération des users.' });
@@ -54,25 +55,31 @@ const updateUser = async (req, res) => {
   
     try {
         // J'appelle les proprietés de mon formulaire
-        const { name, firstname, email } = req.body;
+
+        const { id } = req.params;
+        const { name, firstname, email, role_id } = req.body;
+
     
         // Je recherche dans ma base de donnée si un utilisateur correspond à l'id
-        const user = await User.findOne({ where: { email: email } });
+        const user = await User.findByPk(id);
 
         // Si le user est trouvé je mets à jour la ou les propriété(s) 
         if (user) {
             await user.update({
                 name: name,
                 firstname: firstname,
-            });
 
-            // Je vais recherchez à nouveau l'utilisateur pour vérifier et obtenir les dernières mises à jour de ma base de donnée 
-            // const updatedUser = await User.findOne({ where: { email: email } });
+                email: email,
+                role_id: role_id
+            },
+            {
+                where: {id: id}
+            }
+        )}
             
-            res.json({ user });
-        } else {
-            res.status(404).json({ error: 'User non trouvé' });
-        }
+           // Retourner une réponse indiquant que la mise à jour du commentaire a réussi
+        res.json({ success: true, message: "Commentaire mis à jour avec succès." });
+
 
     } catch (error) {
         console.error(error);
@@ -84,14 +91,17 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
     try {
 
-        const { email } = req.body
-        const userRemoved = await User.destroy({
-            where: {
-                email: email
-            }
-        });
+        const { id } = req.params
 
-        res.json({ userRemoved });
+        const user = await User.findByPk(id)
+
+        await Favorite.destroy({ where: { user_id: id } });
+
+        await Score.destroy({where: {user_id: id} })
+
+        await user.destroy();
+
+         return res.status(200).json({ success: true, message: "Utilisateur supprimé avec succès." });
 
     } catch (error) {
         console.error(error);

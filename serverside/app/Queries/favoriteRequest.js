@@ -1,4 +1,4 @@
-import { Recipe, User, Favorite} from "../Models/index.js";
+import { Recipe,  Favorite, Work} from "../Models/index.js";
 
 // Function to get user's favorite recipes
 const getFavorite = async (req, res) => {
@@ -8,10 +8,16 @@ const getFavorite = async (req, res) => {
             where: { user_id: userId },
             include: [
                 {
-                    model : Recipe,
+                    model: Recipe,
                     as: "recipe",
-                }
-            ]
+                    include: [
+                        {
+                            model: Work,
+                            as: "work",
+                        },
+                    ],
+                },
+            ],
         });
         // Extracting the list of recipe objects from userFavorites
         const favoriteRecipes = userFavorites.map(favorite => favorite.recipe);

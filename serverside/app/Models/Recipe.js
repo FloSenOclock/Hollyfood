@@ -15,7 +15,7 @@ Recipe.init({
         allowNull: false,
     },
 
-    quote: {
+    description: {
         type: DataTypes.TEXT,
         allowNull: false,
     },

@@ -24,12 +24,12 @@ const OneRecipe = () => {
 
   const getOneRecipe = async () => {
     try {
-      const data = await apiFetch(`recette/${encodeURIComponent(slug)}`, {}, 'GET'); // Récupérer les détails de la recette
+      const data = await apiFetch(`recettes/${encodeURIComponent(slug)}`, {}, 'GET'); // Récupérer les détails de la recette
       setRecipe(data.recipe); // Mettre à jour la recette
       setRating(data.rating); // Mettre à jour la note de la recette
 
       if (isAuthenticated()) {
-        const userRatingResponse = await apiFetch(`recette/${encodeURIComponent(slug)}/user-rating`, {}, 'GET'); // Vérifier si l'utilisateur a déjà noté la recette
+        const userRatingResponse = await apiFetch(`recettes/${encodeURIComponent(slug)}/user-rating`, {}, 'GET'); // Vérifier si l'utilisateur a déjà noté la recette
         if (userRatingResponse && userRatingResponse.hasRated) { // Si l'utilisateur a déjà noté la recette
           setHasRated(true);  // Mettre hasRated à true
         }
@@ -42,7 +42,7 @@ const OneRecipe = () => {
   const handleRatingClick = useCallback(async (value) => {
     setRating(value); // Mettre à jour la note de la recette
     try {
-      const response = await apiFetch(`recette/${encodeURIComponent(slug)}`, { recipe_id: recipe.id, rating: value }, 'POST'); // Noter la recette
+      const response = await apiFetch(`recettes/${encodeURIComponent(slug)}`, { recipe_id: recipe.id, rating: value }, 'POST'); // Noter la recette
       if (response) {
         setHasRated(true); // Mettre hasRated à true après avoir noté
         await getOneRecipe(); // Recharger la recette pour mettre à jour la note
@@ -89,10 +89,10 @@ const OneRecipe = () => {
         ) : (
           <RatedBar score={rating} />
         )}
-            <img className='size-11/12 rounded-lg ml-4 shadow-lg shadow-slate-300 mb-4' src={recipe?.picture} alt="image de la recette" />
+          <img className='size-11/12 rounded-lg ml-4 shadow-lg shadow-slate-300 mb-4' src={recipe?.picture} alt="image de la recette" />
       </div>
       <section className='mx-2 text-center sm:mt-8'>
-        <p className='italic mb-2 md:mt-8 lg:mt-12 xl:mt-20 2xl:mt-32'><span className='font-medium'>Anecdote:  </span>{recipe?.quote}</p>
+        <p className='italic mb-2 md:mt-8 lg:mt-12 xl:mt-20 2xl:mt-32'><span className='font-medium'>Anecdote:  </span>{recipe?.description}</p>
         <hr className='h-px my-8 bg-yellow-400 border-0' />
         <p><span className='font-medium'>Temps de préparation:  </span> {recipe?.total_time}</p>
         <div>
@@ -107,7 +107,7 @@ const OneRecipe = () => {
           <ul>
             {recipe?.Ingredients?.map((ingredient, index) => (
               <li key={index}>
-                {ingredient.quantity} {ingredient.name}
+                 {ingredient.name}
               </li>
             ))}
           </ul>
@@ -115,23 +115,27 @@ const OneRecipe = () => {
       </section>
       <section className='mx-2'>
         <h3 className='font-medium mb-2' >Instructions :</h3>
-        <p>{recipe?.instruction}</p>
+        <div>    {recipe?.instruction?.split(/(?=\d+-)/).map((instr, index) => (
+        <p key={index}>{instr}</p>
+      ))}</div>
         <hr className='h-px my-8 bg-yellow-400 border-0' />
         <div className='text-center my-4'><FavButton recipeId={recipe.id}/></div>
-   
-        <div className='flex justify-center my-8'>
-        <span className='font-medium mx-2'>Partagez : </span>
-        <TwitterShareButton className='mx-2' url={shareUrl}><TwitterIcon size={32} round={true} /></TwitterShareButton>
-        <FacebookShareButton className='mx-2' url={shareUrl}><FacebookIcon size={32} round={true} /></FacebookShareButton>
-        <WhatsappShareButton className='mx-2' url={shareUrl}><WhatsappIcon size={32} round={true} /></WhatsappShareButton>
-        <LinkedinShareButton className='mx-2' url={shareUrl}><LinkedinIcon size={32} round={true} /></LinkedinShareButton> 
-        <EmailShareButton className='mx-2' url={shareUrl}><EmailIcon size={32} round={true} /></EmailShareButton>
-        </div>
       </section>
-      <section className='text-center'>
+      <section className='text-center'>      
         {/* Ici s'affichent les commentaires de la recette */}
-        <h2>Commentaire : </h2>
+        <h3 className='font-medium mb-2'>Commentaires : </h3>
         <AllComment/>
+        </section>  
+      <section className='text-center'>
+         {/* Ici s'affichent les partages de réseaux sociaux */}
+        <div className='flex justify-center my-8'>
+          <span className='font-medium mx-2'>Partagez : </span>
+          <TwitterShareButton className='mx-2' url={shareUrl}><TwitterIcon size={32} round={true} /></TwitterShareButton>
+          <FacebookShareButton className='mx-2' url={shareUrl}><FacebookIcon size={32} round={true} /></FacebookShareButton>
+          <WhatsappShareButton className='mx-2' url={shareUrl}><WhatsappIcon size={32} round={true} /></WhatsappShareButton>
+          <LinkedinShareButton className='mx-2' url={shareUrl}><LinkedinIcon size={32} round={true} /></LinkedinShareButton> 
+          <EmailShareButton className='mx-2' url={shareUrl}><EmailIcon size={32} round={true} /></EmailShareButton>
+        </div>
       </section>
     </main>
   );

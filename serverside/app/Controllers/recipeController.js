@@ -1,6 +1,6 @@
 import { addComment, deleteComment, getComments, updateComment } from "../Queries/commentRequest.js";
 import { getOneRecipe, getAllRecipes } from "../Queries/recipeRequest.js";
-import { recipeRating, checkRatingGet } from "../Queries/scoreRequest.js";
+import { recipeRating, checkRating } from "../Queries/scoreRequest.js";
 
 
 const recipeController = {
@@ -37,9 +37,9 @@ recipeRating: async(req,res) => {
 }, 
 
 
-checkRatingGet: async(req,res) => {
+checkRating: async(req,res) => {
   try {
-    await checkRatingGet(req,res);
+    await checkRating(req,res);
   } catch (error) {
     console.error('Erreur lors de la recherche de l\'utilisateur :', error);
     res.status(500).json({ message: 'Erreur serveur lors de la recherche de l\'utilisateur' });
@@ -55,7 +55,7 @@ getComments: async(req,res) => {
   }
 },
 
-getAddComment: async(req,res) => {
+addComment: async(req,res) => {
   try {
     await addComment(req,res);
   } catch (error) {
@@ -64,7 +64,7 @@ getAddComment: async(req,res) => {
   }
 },
 
-getUpdateComment: async (req,res) => {
+updateComment: async (req,res) => {
   try {
     await updateComment(req,res);
   } catch (error) {
@@ -73,7 +73,7 @@ getUpdateComment: async (req,res) => {
   }
 },
 
-getDeleteComment: async (req,res) => {
+deleteComment: async (req,res) => {
   try {
     await deleteComment(req,res);
   } catch (error) {

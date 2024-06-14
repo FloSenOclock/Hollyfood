@@ -1,15 +1,45 @@
-import { createUser, updateUser, deleteUser } from "../Queries/userRequest.js"
+import { createUser, updateUser, deleteUser, getAllUsers, getOneUser } from "../Queries/userRequest.js"
 import { createRecipe,  updateRecipe,  deleteRecipe} from "../Queries/recipeRequest.js";
-import { createWork, updateWork, deleteWork } from "../Queries/workRequest.js";
-import { createTag, updateTag, deleteTag } from "../Queries/tagRequest.js";
-import { createIngredient, updateIngredient, deleteIngredient } from "../Queries/ingredientRequest.js";
-import { createProportion, updateProportion, deleteProportion } from "../Queries/proportionRequest.js";
+import { getAllWorks,createWork, updateWork, deleteWork } from "../Queries/workRequest.js";
+import { getAllTags, createTag, updateTag, deleteTag} from "../Queries/tagRequest.js";
+import { getAllIngredients, createIngredient, updateIngredient, deleteIngredient } from "../Queries/ingredientRequest.js";
 
 
 const adminController = {
+    getOneUser: async(req,res) =>{
 
+        try {
+          await getOneUser(req,res);
+          
+        } catch (error) {
+          console.error('Erreur lors de la recherche de l\'utilisateur :', error);
+          res.status(500).json({ message: 'Erreur serveur lors de la recherche de l\'utilisateur' });
+        }
+        },
+        
+        getAllUsers: async(req,res) => {
+        
+          try {
+            const users = await getAllUsers(req,res);
+            return {
+              users: res.json(users), // Renvoyer tous les users
+            };
+          } catch (error) {
+            console.error('Erreur lors de la recherche de l\'utilisateur :', error);
+            res.status(500).json({ message: 'Erreur serveur lors de la recherche de l\'utilisateur' });
+          }
+        },
+        
+        recipeRating: async(req,res) => {
+          try {
+            await recipeRating(req,res);
+          } catch (error) {
+            console.error('Erreur lors de la recherche de l\'utilisateur :', error);
+            res.status(500).json({ message: 'Erreur serveur lors de la recherche de l\'utilisateur' });
+          }
+        }, 
     // Fonction pour la gestion des utilisateurs    
-    getcreateUser: async(req,res) =>{
+    createUser: async(req,res) =>{
 
         try {
           await createUser(req,res);
@@ -20,7 +50,7 @@ const adminController = {
         }
         },
         
-    getupdateUser: async(req,res) =>{
+    updateUser: async(req,res) =>{
 
         try {
             await updateUser(req,res);
@@ -31,7 +61,7 @@ const adminController = {
         }
         },
 
-    getdeleteUser: async(req,res) =>{
+    deleteUser: async(req,res) =>{
 
         try {
             await deleteUser(req,res);
@@ -43,7 +73,7 @@ const adminController = {
         },
 
     // Fonction pour la gestion des recettes
-        getcreateRecipe: async(req,res) =>{
+    createRecipe: async(req,res) =>{
 
             try {
             await createRecipe(req,res);
@@ -54,7 +84,7 @@ const adminController = {
             }
             },
             
-        getupdateRecipe: async(req,res) =>{
+    updateRecipe: async(req,res) =>{
 
             try {
                 await updateRecipe(req,res);
@@ -65,9 +95,10 @@ const adminController = {
             }
             },
 
-        getdeleteRecipe: async(req,res) =>{
+    deleteRecipe: async(req,res) =>{
 
             try {
+                
                 await deleteRecipe(req,res);
                 
             } catch (error) {
@@ -77,7 +108,21 @@ const adminController = {
             },
 
         // Fonction pour la gestion des oeuvres
-        getcreateWork: async(req,res) =>{
+
+
+        getAllWorks: async(req,res) =>{
+
+            try {
+            await getAllWorks(req,res);
+            
+            } catch (error) {
+            console.error('Erreur lors de la recherche de l\'oeuvre :', error);
+            res.status(500).json({ message: 'Erreur serveur lors de la recherche de l\'oeuvre' });
+        }},
+
+
+    createWork: async(req,res) =>{
+
 
             try {
             await createWork(req,res);
@@ -88,7 +133,7 @@ const adminController = {
             }
             },
             
-        getupdateWork: async(req,res) =>{
+    updateWork: async(req,res) =>{
 
             try {
                 await updateWork(req,res);
@@ -99,7 +144,7 @@ const adminController = {
             }
             },
     
-        getdeleteWork: async(req,res) =>{
+    deleteWork: async(req,res) =>{
 
             try {
                 await deleteWork(req,res);
@@ -112,8 +157,18 @@ const adminController = {
 
 
         // Fonction pour la gestion des tags
+
+        getAllTags: async(req,res) => {
+            try {
+                 await getAllTags(req,res);
+              
+            } catch (error) {
+              console.error('Erreur lors de la recherche de l\'utilisateur :', error);
+              res.status(500).json({ message: 'Erreur serveur lors de la recherche de l\'utilisateur' });
+            }
+          },
         
-        getcreateTag: async(req,res) =>{
+    createTag: async(req,res) =>{
 
             try {
             await createTag(req,res);
@@ -124,7 +179,7 @@ const adminController = {
             }
             },
             
-        getupdateTag: async(req,res) =>{
+    updateTag: async(req,res) =>{
 
             try {
                 await updateTag(req,res);
@@ -135,7 +190,7 @@ const adminController = {
             }
             },
 
-        getdeleteTag: async(req,res) =>{
+    deleteTag: async(req,res) =>{
 
             try {
                 await deleteTag(req,res);
@@ -149,7 +204,22 @@ const adminController = {
         
 
         // Fonction pour la gestion des ingredients
-        getcreateIngredient: async(req,res) =>{
+
+        getAllIngredients: async(req,res) =>{
+
+            try {
+            await getAllIngredients(req,res);
+            
+            } catch (error) {
+            console.error('Erreur lors de la recherche de l\'oeuvre :', error);
+            res.status(500).json({ message: 'Erreur serveur lors de la recherche de l\'oeuvre' });      
+
+        }},
+        
+   
+
+    createIngredient: async(req,res) =>{
+
 
             try {
             await createIngredient(req,res);
@@ -160,7 +230,7 @@ const adminController = {
             }
             },
             
-        getupdateIngredient: async(req,res) =>{
+    updateIngredient: async(req,res) =>{
 
             try {
                 await updateIngredient(req,res);
@@ -171,45 +241,10 @@ const adminController = {
             }
             },
 
-        getdeleteIngredient: async(req,res) =>{
+    deleteIngredient: async(req,res) =>{
 
             try {
                 await deleteIngredient(req,res);
-                
-            } catch (error) {
-                console.error('Erreur lors de la suppression de la recette:', error);
-                res.status(500).json({ message: 'Erreur serveur lors de la suppression de la recette' });
-            }
-            }, 
-
-        // Fonction pour la gestion des proprotions
-
-        getcreateProportion: async(req,res) =>{
-
-            try {
-            await createProportion(req,res);
-            
-            } catch (error) {
-            console.error('Erreur lors de la création de la recette :', error);
-            res.status(500).json({ message: 'Erreur serveur lors de la création de la recette' });
-            }
-            },
-            
-        getupdateProportion: async(req,res) =>{
-
-            try {
-                await updateProportion(req,res);
-                
-            } catch (error) {
-                console.error('Erreur lors de la mise à jour de la recette :', error);
-                res.status(500).json({ message: 'Erreur serveur lors de la mise à jour de la recette' });
-            }
-            },
-
-        getdeleteProportion: async(req,res) =>{
-
-            try {
-                await deleteProportion(req,res);
                 
             } catch (error) {
                 console.error('Erreur lors de la suppression de la recette:', error);

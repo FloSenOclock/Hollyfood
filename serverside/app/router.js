@@ -12,11 +12,8 @@ import isAdmin from '../middlewares/isAdmin.js';
 import emailUnique from '../middlewares/emailUnique.js';
 
 
+
 const router = express.Router();
-
-// router.use(cors());
-// router.use(cookieParser());
-
 
 // Route pour la page d'accueil
 router.get('/',mainController.home);
@@ -25,16 +22,16 @@ router.get('/',mainController.home);
 router.get('/recettes', recipeController.getAllRecipes); 
 
 // Route pour afficher une recette spécifique en utilisant le slug
-router.get('/recette/:slug', recipeController.getOneRecipe);
+router.get('/recettes/:slug', recipeController.getOneRecipe);
 // Route pour afficher les commentaires d'une recette
-router.get('/recette/:slug/comments', recipeController.getComments)
-router.post('/recette/:slug/comments',jwtToken, recipeController.getAddComment)
-router.put('/recette/:slug/comments/:id',jwtToken, recipeController.getUpdateComment)
-router.delete('/recette/:slug/comments/:id',jwtToken, recipeController.getDeleteComment)
+router.get('/recettes/:slug/comments', recipeController.getComments)
+router.post('/recettes/:slug/comments',jwtToken, recipeController.addComment)
+router.put('/recettes/:slug/comments/:id',jwtToken, recipeController.updateComment)
+router.delete('/recettes/:slug/comments/:id',jwtToken, recipeController.deleteComment)
 //route pour verifier si un user a noté la recette
-router.get('/recette/:slug/user-rating', jwtToken, recipeController.checkRatingGet);
+router.get('/recettes/:slug/user-rating', jwtToken, recipeController.checkRating);
 //route pour noter une recette
-router.post('/recette/:slug', jwtToken, recipeController.recipeRating);
+router.post('/recettes/:slug', jwtToken, recipeController.recipeRating);
 
 // Route pour la vérification de l'email unique
 router.post('/checkEmail', emailUnique);
@@ -56,7 +53,7 @@ router.get('/tag/:name', tagController.getOneTag);
 // Route pour afficher la page profil
 router.route('/profil')
 .get(jwtToken, profilController.getOneUser)
-.put(jwtToken, profilController.getupdateUser);
+.put(jwtToken, profilController.updateUser);
 
 
 //Routes pour gérer les favoris
@@ -66,42 +63,51 @@ router.route('/favorites')
 .delete(jwtToken, profilController.deleteFavorite);
 
 // Route pour les pages de gestion des users, recipes, works, tags, ingredients et porportions de l'administrateur
+router.route('/admin/users')
+.get(jwtToken, jwtToken, isAdmin, adminController.getAllUsers)
+
 
 // Methode pour créer,mettre à jour et supprimer des utilisateurs
 router.route('/admin/user')
-.post(isAdmin, adminController.getcreateUser)
-.put(isAdmin, adminController.getupdateUser)
-.delete(isAdmin, adminController.getdeleteUser);
+.post(jwtToken, isAdmin, adminController.createUser);
+
+router.route('/admin/user/:id')
+.put(jwtToken, isAdmin, adminController.updateUser)
+.delete(jwtToken, isAdmin, adminController.deleteUser);
 
 
 // Methode pour créer,mettre à jour et supprimer des recettes
 router.route('/admin/recettes')
-.post(isAdmin, adminController.getcreateRecipe)
-.put(isAdmin, adminController.getupdateRecipe)
-.delete(isAdmin, adminController.getdeleteRecipe);
+
+.get(jwtToken, isAdmin, recipeController.getAllRecipes)
+.post(jwtToken, isAdmin, adminController.createRecipe)
+
+router.route('/admin/recettes/:id')
+.put(jwtToken, isAdmin, adminController.updateRecipe)
+.delete(jwtToken, isAdmin, adminController.deleteRecipe);
 
 router.route('/admin/work')
-.post(isAdmin, adminController.getcreateWork)
-.put(isAdmin, adminController.getupdateWork)
-.delete(isAdmin, adminController.getupdateWork);
+.get(jwtToken, isAdmin, adminController.getAllWorks)
+.post(jwtToken, isAdmin, adminController.createWork)
+router.route('/admin/work/:id')
+.put(jwtToken, isAdmin, adminController.updateWork)
+.delete(jwtToken, isAdmin, adminController.deleteWork);
 
 // Methode pour créer,mettre à jour et supprimer des tags
 router.route('/admin/tag')
-.post(isAdmin, adminController.getcreateTag)
-.put(isAdmin, adminController.getupdateTag)
-.delete(isAdmin, adminController.getdeleteTag);
+.get(jwtToken, isAdmin, adminController.getAllTags)
+.post(jwtToken, isAdmin, adminController.createTag)
+router.route('/admin/tag/:id')
+.put(jwtToken, isAdmin, adminController.updateTag)
+.delete(jwtToken, isAdmin, adminController.deleteTag);
 
 // Methode pour créer,mettre à jour et supprimer des ingredients
 router.route('/admin/ingredient')
-.post(isAdmin, adminController.getcreateIngredient)
-.put(isAdmin, adminController.getupdateIngredient)
-.delete(isAdmin, adminController.getdeleteIngredient);
-
-// Methode pour créer,mettre à jour et supprimer des proportions
-router.route('/admin/proportion')
-.post(isAdmin, adminController.getcreateProportion)
-.put(isAdmin, adminController.getupdateProportion)
-.delete(isAdmin, adminController.getdeleteProportion);
+.get(jwtToken, isAdmin, adminController.getAllIngredients)
+.post(jwtToken, isAdmin, adminController.createIngredient)
+router.route('/admin/ingredient/:id')
+.put(jwtToken, isAdmin, adminController.updateIngredient)
+.delete(jwtToken, isAdmin, adminController.deleteIngredient);
 
 
 

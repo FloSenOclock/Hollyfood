@@ -1,8 +1,8 @@
-import { Recipe, User, Score } from "../Models/index.js";
-import { Sequelize } from 'sequelize';
+import { Recipe, Score } from "../Models/index.js";
+
 
 // Vérifier si l'utilisateur a déjà noté la recette
-const checkRatingGet = async (req, res) => {
+const checkRating = async (req, res) => {
     try {
         const userId = req.user.id;
 
@@ -57,4 +57,4 @@ const recipeRating = async (req, res) => {
 };
 
 
-export { recipeRating, checkRatingGet };
+export { recipeRating, checkRating };

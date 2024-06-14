@@ -5,9 +5,9 @@ import FavButton from "../../Buttons/FavButton";
 
 const FavCard = ({ picture, slug, id }) => {
   return (
-    <article className="mx-12 mb-4 pb-2 sm:flex-col lg:flex lg:mx-24 shadow-xl size-fit rounded-lg">
+    <article className="mb-2 mx-auto pb-2 sm:flex-col lg:flex lg:mx-24 shadow-md size-fit rounded-lg">
       <div className="flex flex-col" >
-        <Link to={`/recette/${slug}`}>
+        <Link to={`/recettes/${slug}`}>
         <img src={picture} alt="image de la recette" className="pt-1 rounded-t-lg max-w-64 hover:brightness-75" />
         </Link>
       </div>

@@ -66,20 +66,6 @@ const updateComment = async (req, res) => {
         const {  id } = req.params; // Slug de la recette
         const { description } = req.body; // Description du commentaire, ID de l'utilisateur ayant créé le commentaire et date de création du commentaire
        
-        // Trouver la recette avec le slug fourni
-        // const recipe = await Recipe.findOne({
-        //     where: { slug: slug },
-        //     include: [{
-        //         model: Comment,
-        //         as: "comments"
-        //     }]
-        // });
-
-        // // Si la recette n'est pas trouvée, retourner une erreur 404
-        // if (!recipe) {
-        //     return res.status(404).json({ error: "Recette non trouvée." });
-        // }
-
         // Trouver le commentaire avec l'ID utilisateur fourni et la date de création
         const userComment = await Comment.findByPk(id, 
             {

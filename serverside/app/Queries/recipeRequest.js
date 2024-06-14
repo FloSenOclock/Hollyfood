@@ -1,8 +1,11 @@
 import {Recipe, Ingredient, Work, Tag, Score} from "../Models/index.js";
-import { Sequelize } from 'sequelize';
+import { Sequelize} from 'sequelize';
+import sequelize from '../database.js';
 
 
 const getAllRecipes = async (req, res) => {
+
+
     try {
         // Récupère toutes les recettes avec leurs associations
         const recipes = await Recipe.findAll({
@@ -89,9 +92,45 @@ const getOneRecipe = async (req, res) => {
 
 
 const createRecipe = async (req, res) => {
+  
+    // const userId = req.user.id
+    const {slug, name, quote, picture, instruction, total_time, servings, difficulty, score, work_id, user_id, Tags, Ingredients} = req.body
+
     try {
-        const recipe = await Recipe.create(req.body);
-        res.json({ recipe });
+
+         // Créer le commentaire
+         const recipe = await Recipe.create({
+                slug: slug, 
+                name: name, 
+                description: quote, 
+                picture: picture, 
+                instruction: instruction, 
+                total_time: total_time, 
+                servings: servings, 
+                difficulty: difficulty, 
+                score: score,
+                work_id: work_id,
+                user_id: user_id,
+            },
+            {
+                include: [Ingredient],
+            },
+            {
+                include: [Tag]
+            }
+        );
+
+        if (Ingredients && Ingredients.length > 0) {
+            await recipe.addIngredients(Ingredients);
+        } 
+
+        if (Tags && Tags.length > 0) {
+            await recipe.addTags(Tags);
+        } 
+
+
+         // Retourner le commentaire créé
+         res.status(201).json({ recipe });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Une erreur est survenue lors de la création de la recette.' });
@@ -100,56 +139,128 @@ const createRecipe = async (req, res) => {
 
 const updateRecipe = async (req, res) => {
 
+    const { id } = req.params;
+    console.log(id);
+    // Appelle les propriétés de mon formulaire
+    const { slug, name, quote, picture, instruction, total_time, servings, difficulty, score, title, synopsis, Tags, Ingredients} = req.body;
+
+    const transaction = await sequelize.transaction();
+
     try {
-        // J'appelle les proprietés de mon formulaire
-        const { slug, name, quote, picture, instruction, total_time, servings, difficulty, score } = req.body;
-        // J'appelle l'id qui sera définit dans ma requete
+ 
+        // Recherche dans la base de données si la recette correspond à l'id
+        const recipe = await Recipe.findByPk(id, {
+            include: [
+                {
+                    model: Work,
+                    as: 'work',
+                },
+                {
+                    model: Ingredient,
+                    through: 'recipe_has_ingredient',
+                },
+                {
+                    model: Tag,
+                    through: 'recipe_has_tag',
+                },
+            ],
+            transaction
+        },
+    );
 
-        // Je recherche dans ma base de donnée si la recette correspond à l'id
-        const recipe = await Recipe.findOne({ where: {slug : slug } });
 
-        // Si la recette est trouvé je mets à jour la ou les propriété(s) 
+
+        // Si la recette est trouvée, mets à jour les propriétés
         if (recipe) {
             await recipe.update({
                 slug: slug,
                 name: name,
-                quote: quote,
-                picture: picture, 
-                instruction: instruction, 
-                total_time: total_time, 
-                servings: servings, 
-                difficulty: difficulty, 
-                score: score
-            });
+                description: quote,
+                picture: picture,
+                instruction: instruction,
+                total_time: total_time,
+                servings: servings,
+                difficulty: difficulty,
+                score: score,
+            }, {transaction}
+        );
 
-            // Je vais recherchez à nouveau la recette pour vérifier et obtenir les dernières mises à jour de ma base de donnée 
-            const updatedRecipe = await Recipe.findOne({ where: { slug: slug } });
-            
-            res.json({updatedRecipe});
+        if (recipe.work) {
+            await recipe.work.update({
+                title: title,
+                synopsis: synopsis
+            }, { transaction });
+        }
 
+        if (Ingredients) {
+            await recipe.setIngredients(Ingredients, {transaction})
+        }
+
+        if (Tags) {
+            await recipe.setTags(Tags, {transaction})
+        }
+    
+        await transaction.commit();
+
+        const updatedRecipe = await Recipe.findByPk(id, {
+            include: [
+                {
+                    model: Work,
+                    as: 'work',
+                },
+                {
+                    model: Ingredient,
+                    through: 'recipe_has_ingredient',
+                },
+                {
+                    model: Tag,
+                    through: 'recipe_has_tag',
+                },
+            ],
+        });
+
+            res.json({updatedRecipe });
         } else {
-            res.status(404).json({ error: 'Recipe non trouvé' }); 
+            await transaction.rollback();
+            res.status(404).json({ error: 'Recipe non trouvé' });
         }
     } catch (error) {
-        console.error(error);
         res.status(500).json({ error: 'Une erreur est survenue lors de la mise à jour de la recette.' });
     }
-}
+};
 
 
 const deleteRecipe = async (req, res) => {
     try {
-        const { slug } = req.body
-        const recipeRemoved = await Recipe.destroy({
-            where: {
-                slug: slug
-            }
+        const {id} = req.params; // ID du commentaire à supprimer
+
+        // Rechercher le commentaire par son ID
+        const recipe = await Recipe.findByPk(id, {
+            include: [
+                {
+                    model: Ingredient,
+                    through: 'recipe_has_ingredient',
+                },
+                {
+                    model: Tag,
+                    through: 'recipe_has_tag',
+                },
+            ],
         });
-        res.json({ recipeRemoved });
+        
+        await recipe.removeIngredients(recipe.Ingredients);
+
+        await recipe.removeTags(recipe.Tags);
+
+        // Supprimer le recette
+        await recipe.destroy();
+
+        // Retourner une réponse réussie
+        return res.status(200).json({ success: true, message: "recette supprimé avec succès." });
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Une erreur est survenue lors de la suppression de la recette.' });
+        return res.status(500).json({ success: false, error: "Une erreur est survenue lors de la suppression du recette." });
     }
 };
 

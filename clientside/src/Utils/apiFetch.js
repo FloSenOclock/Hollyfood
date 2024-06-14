@@ -14,7 +14,9 @@ const apiFetch = async (path, body = {}, method = 'GET') => {
     options.body = JSON.stringify(body);
   }
 
-  const response = await fetch( `https://projet-hollyfood-fphz.onrender.com/api/${path}`, options); // Envoyer la requête à l'API http://localhost:3000/api/${path} ou https://projet-hollyfood-fphz.onrender.com/api/${path}
+
+  const response = await fetch( `https://projet-hollyfood-fphz.onrender.com/api/${path}`, options); // Envoyer : la requête à l'API http://localhost:3000/api/${path} ou https://projet-hollyfood-fphz.onrender.com/api/${path}
+
 
 
   if (!response.ok) {

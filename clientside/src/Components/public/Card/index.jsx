@@ -7,10 +7,10 @@ import { RatedBar } from "../ratingBar";
 
 const Card = ({ score, picture, name, difficulty, slug, workTitle, id }) => {
   return (
-    <section className="mx-12 mb-4 pb-2 sm:flex-col lg:flex  shadow-xl size-fit rounded-lg">
+    <section className="mb-2 mx-auto pb-2 sm:flex-col lg:flex shadow-md size-fit rounded-lg">
       <article className="flex flex-col">
         <RatedBar score={score} />
-        <Link to={`/recette/${slug}`}>
+        <Link to={`/recettes/${slug}`}>
           <img
             src={picture}
             alt="image de la recette"
@@ -28,7 +28,7 @@ const Card = ({ score, picture, name, difficulty, slug, workTitle, id }) => {
           <p className="font-medium text-lg mx-2  ">{difficulty}</p>
         </div>
         <div className="hover:underline hover:underline-offset-4 hover:text-lg mr-2">
-          <Link to={`/recette/${slug}`}>Détails...</Link>
+          <Link to={`/recettes/${slug}`}>Détails...</Link>
         </div>
         </div>
         <hr className="h-px my-4 bg-yellow-400 border-0"/>

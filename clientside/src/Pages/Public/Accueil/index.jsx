@@ -1,24 +1,23 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useRef } from "react";
 import Carrousel from "../../../Components/public/carrousel";
 import { boxOfficeSort, lastReleaseSort } from "../../../Utils/sortFunction";
 import apiFetch from "../../../Utils/apiFetch";
 import MyState from "../../../Components/public/MyContext";
 
 const Home = () => {
-  const { recipes, setRecipes } = useContext(MyState); // On utilise le hook useContext pour récupérer les states de MyState
-  const slider = React.createRef(); // On crée une référence pour le slider
-  const slider2 = React.createRef(); // On crée une référence pour le slider
+  const { recipes, setRecipes } = useContext(MyState);
+  const slider = useRef();
+  const slider2 = useRef();
 
   const getRecipes = async () => {
-    // On crée une fonction pour utiliser l'api qui renverra nos recettes
     try {
-      const data = await apiFetch("recettes", {}, "GET"); // On utilise la fonction apiFetch pour récupérer les recettes
-      setRecipes(data.recipes); // On met à jour la state recipes avec les données récupérées
+      const data = await apiFetch("recettes", {}, "GET");
+      setRecipes(data.recipes);
     } catch (error) {
       console.error(error);
     }
   };
-  // On utilise un hook useEffect pour indiqué que a chaque chargement de la page on lui envoie la fonction api
+
   useEffect(() => {
     getRecipes();
   }, []);
@@ -27,16 +26,11 @@ const Home = () => {
     <>
       <main>
         <section>
-          <h2 className="my-8 text-center lg:text-left lg:ml-16  font-bold text-4xl">
+          <h2 className="my-8 text-center lg:text-left lg:ml-16 font-bold text-4xl">
             Box office
           </h2>
-          {/*fonction de tri pour affichage par les recettes les mieux notées */}
-          <Carrousel
-            slider={slider}
-            recipes={recipes}
-            sortFunction={boxOfficeSort}
-          />
-          <div className="z-100 flex justify-center mt-14">
+          <Carrousel slider={slider} recipes={boxOfficeSort([...recipes])} />
+          <div className="flex justify-center mt-14">
             <div className="mx-2">
               <button
                 className="bg-yellow-400 rounded-full hover:scale-110 p-1 shadow-lg shadow-yellow-600"
@@ -73,13 +67,8 @@ const Home = () => {
           <h2 className="my-8 text-center lg:text-left lg:ml-16 font-bold text-4xl">
             Dernières sorties
           </h2>
-          {/*fonction de tri par date de création pour les dernières sorties */}
-          <Carrousel
-            slider={slider2}
-            recipes={recipes}
-            sortFunction={lastReleaseSort}
-          />
-          <div className="z-100 flex justify-center my-10">
+          <Carrousel slider={slider2} recipes={lastReleaseSort([...recipes])} />
+          <div className="flex justify-center my-10">
             <div className="mx-2">
               <button
                 className="bg-yellow-400 rounded-full hover:scale-110 p-1 shadow-lg shadow-yellow-600"

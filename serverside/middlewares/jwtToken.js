@@ -25,7 +25,7 @@ const jwtToken = async (req,res,next) => {
 
                 // On décode le playload
                 const userId = decoded.userId;
-                const userRole = decoded.userId;
+                const userRole = decoded.userRole;
 
                 req.user = {
                     id: userId,

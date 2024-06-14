@@ -1,6 +1,14 @@
-import { getOneTag } from "../Queries/tagRequest.js";
+import { getAllTags, getOneTag } from "../Queries/tagRequest.js";
 
 const tagController = {
+
+  getAllTags: async (req, res) => {
+    try {
+      await getAllTags(req,res);
+    } catch (error) {
+      res.status(500).json({ message: 'Une erreur est survenue lors de la sélection des Tags.' });
+    }
+  },
 
   // Fonction pour récupérer un seul tag
   getOneTag: async (req, res) => {

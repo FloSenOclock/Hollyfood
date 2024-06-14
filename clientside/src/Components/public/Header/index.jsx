@@ -20,8 +20,8 @@ const Header = () => {
    // champs vide à l'état initial
 
   return (
-    <header className="bg-black text-white ">
-      <div className="flex">
+    <header className="bg-black text-white">
+      <div className="flex ">
     {/* Logo du site */}
     <div className="flex ml-2 mt-2 size-max w-1/3">
       {location.pathname !== "/accueil" && location.pathname !== "/" && (
@@ -66,13 +66,11 @@ const Header = () => {
   </div>
   <div className="flex w-1/3 mr-4 sm:justify-end sm:mt-10">
       {/* Lien vers la page de connexion avec Logo de Profil */}
-    <div className="flex mt-4">
+    <div className="flex mt-4 ">
       {token ? (
-        <div className="flex">
-          <Link className="mx-1 font-semibold  hover:text-yellow-400 " onClick={handleDeconnexion}>
-            Déconnexion
-          </Link>
-          <Link className="mx-1 " to="/profil">
+        <div className="flex sm:flex-col sm:items-center ">
+          
+          <Link className="mx-1 sm:mb-6 " to="/profil">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -86,26 +84,21 @@ const Header = () => {
               />
             </svg>
           </Link>
+          <Link className="mx-1 sm:mx-3 font-semibold  hover:text-yellow-400 " onClick={handleDeconnexion}>
+            Déconnexion
+          </Link>
         </div>
       ) : (
-        <div className="flex">
-          <Link className="mx-1 font-semibold hover:text-yellow-400" to="/inscription">
+        <div className="flex sm:flex-col sm:items-center ">
+                    <Link className="mx-1 sm:mb-6" to="/connexion">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 text-yellow-400  md:size-8 hover:text-white">
+  <path fillRule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clipRule="evenodd" />
+</svg>
+          </Link>
+          <Link className="mx-1 sm:mx-3 font-semibold hover:text-yellow-400" to="/inscription">
             Inscription
           </Link>
-          <Link className="mx-1" to="/connexion">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="size-7 md:size-8 text-white hover:text-yellow-400"
-            >
-              <path
-                fillRule="evenodd"
-                d="M7.5 3.75A1.5 1.5 0 0 0 6 5.25v13.5a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5V15a.75.75 0 0 1 1.5 0v3.75a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3V5.25a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3V9A.75.75 0 0 1 15 9V5.25a1.5 1.5 0 0 0-1.5-1.5h-6Zm5.03 4.72a.75.75 0 0 1 0 1.06l-1.72 1.72h10.94a.75.75 0 0 1 0 1.5H10.81l1.72 1.72a.75.75 0 1 1-1.06 1.06l-3-3a.75.75 0 0 1 0-1.06l3-3a.75.75 0 0 1 1.06 0Z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </Link>
+
         </div>
       )}
     </div>
