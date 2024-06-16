@@ -22,7 +22,11 @@
     // Validation du champ password
     if (!credentials.password.trim()) {
         errors.password = "Le mot de passe est requis";
+    } else if (!/^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>\-])[A-Za-z\d!@#$%^&*(),.?":{}|<>\-]{12,}$/.test(credentials.password)) {
+        errors.password = "Le mot de passe doit comporter au moins 12 caractères, avec au moins une majuscule et un caractère spécial";
     }
+   
+    
 
     // Validation du champ confirmPassword
     if (!credentials.confirmPassword.trim()) {

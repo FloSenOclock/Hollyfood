@@ -18,6 +18,16 @@ const SortForm = () => {
         getRecipesList()
     }, [])
 
+    useEffect(() => {
+        // Réinitialiser l'état des cases à cocher lorsque le composant est monté
+        setChecked({
+            Série: false,
+            Film: false,
+            Salé: false,
+            Sucré: false
+        });
+    }, []);
+
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
 

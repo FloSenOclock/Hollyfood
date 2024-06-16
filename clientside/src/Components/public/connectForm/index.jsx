@@ -12,6 +12,8 @@ const navigate = useNavigate();   // hook de navigation
     password:''
 });
 
+const [errors, setErrors] = useState({}); // stockage des erreurs de validation.
+
 
 // fusion des target.name et target.value car les values sont dans un objet
 const onChange = (e) => {
@@ -24,10 +26,11 @@ const onChange = (e) => {
 const onSubmit = async (e) => {  // fonction asynchrone pour envoyer les données du formulaire
     e.preventDefault(); // empêcher le rechargement de la page
 
-    const data = await apiFetch('connexion', credentials, 'POST') // envoyer les données du formulaire à l'API
-    localStorage.setItem('token', data.token) // stocker le token dans le local storage
+ 
 
     try {
+        const data = await apiFetch('connexion', credentials, 'POST') // envoyer les données du formulaire à l'API
+        localStorage.setItem('token', data.token) // stocker le token dans le local storage
             console.log('Réponse de l\'API :', data);
             navigate('/accueil');
 
@@ -39,8 +42,14 @@ const onSubmit = async (e) => {  // fonction asynchrone pour envoyer les donnée
         }, 3600000); // 3 600 000 millisecondes équivalent à une heure, une heure est la durée de vie du token dans le backend.
           } catch (error) {
             // Gérer les erreurs, par exemple afficher un message d'erreur à l'utilisateur
-            console.error('Erreur lors de la connexion :', error);    
-    } 
+            console.error('Erreur lors de la connexion :', error); 
+            
+            if (errors.response && errors.response.data) {
+                setErrors({ api: errors.response.data.error });
+            } else {
+                setErrors({ api: 'Une erreur est survenue. Veuillez réessayer.' });
+            }
+    }
 };
 
 return (
@@ -51,11 +60,11 @@ return (
                 <input className='bg-yellow-50 rounded-lg border-2 border-yellow-400' type="email" name="email" id="email" required value={credentials.email} onChange={onChange}/>
      
             </div>
-            <div>
+            <div className='mr-12'>
                 <label htmlFor="password">Mot de passe</label>
                 <input className='bg-yellow-50 rounded-lg border-2 border-yellow-400' type="password" name="password" id="password" required value={credentials.password} onChange={onChange}/>
-        
             </div>
+            {errors.api && <div className="error text-red-400 mb-2">{errors.api}</div>}
             <div>
             <Link className='italic hover:underline hover:underline-offset-4' to="/mdp-oublie">Mot de passe oublié ?</Link>
             </div>

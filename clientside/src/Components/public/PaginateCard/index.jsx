@@ -8,17 +8,17 @@ const PaginateCard = ({ recipes }) => {
     const [isTablet, setIsTablet] = useState(false); 
     const [isDesktop, setIsDesktop] = useState(false); 
 
-    const itemsPerPage = isMobile ? 1 : (isTablet ? 2 : (isDesktop ? 3 : 4)); 
+    const itemsPerPage = isMobile ? 1 : (isTablet ? 2 : 4);
+
 
     const handlePageClick = (data) => {
         setCurrentPage(data.selected);
     };
-
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth <= 768); 
-            setIsTablet(window.innerWidth <= 1280); 
-            setIsDesktop(window.innerWidth <= 1536); 
+            setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1280); 
+            setIsDesktop(window.innerWidth > 1280); 
         };
         handleResize(); 
         window.addEventListener('resize', handleResize); 
@@ -34,9 +34,9 @@ const PaginateCard = ({ recipes }) => {
         <main>
             <div className='flex flex-col items-center'>
                 {recipes ? (
-                    <div className='flex flex-nowrap'>
+                    <div className='flex flex-nowrap gap-4'>
                         {currentItems.map((recipe) => (
-                            <div key={recipe.id} className='mx-8'>
+                            <div key={recipe.id} >
                                 <Card
                                     score={recipe.averageRating}
                                     picture={recipe.picture}

@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useRef } from "react";
+import React, { useEffect, useContext, useRef, useState } from "react";
 import Carrousel from "../../../Components/public/carrousel";
 import { boxOfficeSort, lastReleaseSort } from "../../../Utils/sortFunction";
 import apiFetch from "../../../Utils/apiFetch";
@@ -6,6 +6,8 @@ import MyState from "../../../Components/public/MyContext";
 
 const Home = () => {
   const { recipes, setRecipes } = useContext(MyState);
+  const [sortedBoxOfficeRecipes, setSortedBoxOfficeRecipes] = useState([]);
+  const [sortedLastReleaseRecipes, setSortedLastReleaseRecipes] = useState([]);
   const slider = useRef();
   const slider2 = useRef();
 
@@ -22,6 +24,15 @@ const Home = () => {
     getRecipes();
   }, []);
 
+  useEffect(() => {
+    if (recipes && recipes.length > 0) {
+      const sortedBoxOffice = boxOfficeSort([...recipes]);
+      const sortedLastRelease = lastReleaseSort([...recipes]);
+      setSortedBoxOfficeRecipes(sortedBoxOffice);
+      setSortedLastReleaseRecipes(sortedLastRelease);
+    }
+  }, [recipes]);
+
   return (
     <>
       <main>
@@ -29,7 +40,7 @@ const Home = () => {
           <h2 className="my-8 text-center lg:text-left lg:ml-16 font-bold text-4xl">
             Box office
           </h2>
-          <Carrousel slider={slider} recipes={boxOfficeSort([...recipes])} />
+          <Carrousel slider={slider} recipes={sortedBoxOfficeRecipes} />
           <div className="flex justify-center mt-14">
             <div className="mx-2">
               <button
@@ -66,8 +77,8 @@ const Home = () => {
         <section>
           <h2 className="my-8 text-center lg:text-left lg:ml-16 font-bold text-4xl">
             Dernières sorties
-          </h2>
-          <Carrousel slider={slider2} recipes={lastReleaseSort([...recipes])} />
+          </h2>        
+          <Carrousel slider={slider2} recipes={sortedLastReleaseRecipes} />
           <div className="flex justify-center my-10">
             <div className="mx-2">
               <button

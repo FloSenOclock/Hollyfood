@@ -8,7 +8,21 @@ const AdminRecipe = () => {
   const {searchAdmin} = useContext(MyState);
   const [recipes, setRecipes] = useState([]); // Initialisé comme un tableau vide
   const [filteredRecipes, setFilteredRecipes] = useState([]);
+  const [addRecipe, setAddRecipe] = useState(false);
   const [editUpdate, setEditUpdate] = useState(null);
+  const [recipeError, setRecipeError] = useState("");
+
+const [addName, setAddName] = useState("");
+const [addSlug, setAddSlug] = useState("");
+const [addWork, setAddWork] = useState("");
+const [addDifficulty, setAddDifficulty] = useState("");
+const [addImage, setAddImage] = useState("");
+const [addIngredients, setAddIngredients] = useState([]);
+const [addTags, setAddTags] = useState([]);
+const [addTime, setAddTime] = useState("");
+const [addInstruction, setAddInstruction] = useState("");
+const [addServings, setAddServings] = useState("");
+const [addDescription, setAddDescription] = useState("");
 
   const [editName, setEditName] = useState("");
   const [editSlug, setEditSlug] = useState("");
@@ -27,6 +41,7 @@ const AdminRecipe = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       const data = await apiFetch("admin/recettes");
+      console.log(data);
       const sortedRecipes = data.recipes.sort((a, b) => a.id - b.id);
       setRecipes(sortedRecipes);
       setFilteredRecipes(sortedRecipes);
@@ -46,6 +61,63 @@ const AdminRecipe = () => {
         console.log(newList);
     }
 }, [searchAdmin, recipes]);
+
+const createRecipe = async (e) => {
+  e.preventDefault();
+  if (addName.trim() === ""
+  || addSlug.trim() === "" 
+  || addWork.trim() === ""
+  || addDifficulty.trim() === ""
+  || addImage.trim() === ""
+  || addIngredients === ""
+  || addTags === ""
+  || addTime.trim() === ""
+  || addInstruction.trim() === ""
+  || addServings.trim() === ""
+  || addDescription.trim() === "") {
+    setRecipeError("Les champs sont requis");
+    return;
+  }
+
+  const recipeData = {
+    name: addName,
+    slug: addSlug,
+    work_id: addWork,
+    difficulty: addDifficulty,
+    picture: addImage,
+    Ingredients: addIngredients,
+    Tags: addTags,
+    total_time: addTime,
+    instruction: addInstruction,
+    servings: addServings,
+    description: addDescription
+  };
+
+  try {
+    console.log(recipeData);
+    const data = await apiFetch('admin/recettes', recipeData, 'POST');
+    setRecipes(prevRecipe => [...prevRecipe, data.recipe]);
+    setAddName('');
+    setAddSlug('');
+    setAddWork("");
+    setAddDifficulty('');
+    setAddImage('');
+    setAddIngredients([]);
+    setAddTags([]);
+    setAddTime('');
+    setAddInstruction('');
+    setAddServings('');
+    setAddDescription('');
+    setAddRecipe(false); // Masquer le formulaire après l'ajout
+  } catch (error) {
+    console.error(error);
+    if (error.response && error.response.data) {
+      setRecipeError(error.response.data.error);
+    } else {
+      setRecipeError('Une erreur est survenue. Veuillez réessayer.');
+    }
+  }
+};
 
 const handleUpdate = async (recipeId) => {
 
@@ -104,6 +176,34 @@ console.log(updateRecipeData);
   }
 };
 
+const handleDelete = async (recipeId) => {
+  try {
+    const data = await apiFetch(`admin/recettes/${recipeId}`, {}, 'DELETE');
+    if (data && data.success) {
+      setRecipes(prevRecipess => prevRecipess.filter(recipe => recipe.id !== recipeId));
+      setFilteredRecipes(filteredRecipes.filter(recipe => recipe.id !== recipeId));
+    } else {
+      console.error("Erreur lors de la suppression de l'œuvre :", data.message);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const showAdd = () => {
+  setAddRecipe(true)
+  setAddName('')
+  setAddSlug('')
+  setAddWork("")
+  setAddDifficulty('')
+  setAddImage('')
+  setAddIngredients([])
+  setAddTags([])
+  setAddTime('')
+  setAddInstruction('')
+  setAddServings('')
+  setAddDescription('')
+};
 
 const showUpdate = (recipe) => {
   setEditUpdate(recipe.id)
@@ -116,13 +216,14 @@ const showUpdate = (recipe) => {
   setEditIngredients(recipe.Ingredients.map((ingredient) => ingredient.id))
   setEditTags(recipe.Tags.map((tag) => tag.id))
   setEditTime(recipe.total_time)
-  setEditInstruction(recipe.instriction)
+  setEditInstruction(recipe.instruction)
   setEditServings(recipe.servings)
   setEditDescription(recipe.description)
 }
 
 const handleCancel = () => {
-  setEditUpdate(false)
+  setEditUpdate(false);
+  setAddRecipe(false);
 }
 
 
@@ -132,6 +233,145 @@ const handleCancel = () => {
         <RecipeHeader/>     
         <ASearchBar/>    
         <h2 className='bg-black text-yellow-400 font-bold  mt-8 pl-10 px-4 py-2 rounded'>LISTE DES RECETTES</h2>
+
+        {addRecipe ?
+          <form method='post' onSubmit={createRecipe} className="flex flex-col w-4/5">
+            <div className="flex flex-wrap">
+              <div>
+                  <label htmlFor="addName">Titre</label>
+                  <input
+                    type="text"
+                    id="addName"
+                    value={addName}
+                    onChange={(e) => setAddName(e.target.value)}
+                    className="border border-gray-300 rounded p-1"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="addSlug">Slug</label>
+                  <input
+                    type="text"
+                    id="addSlug"
+                    value={addSlug}
+                    onChange={(e) => setAddSlug(e.target.value)}
+                    className="border border-gray-300 rounded p-1"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="addWork">Work</label>
+                  <input
+                    type="text"
+                    id="addWork"
+                    value={addWork}
+                    min={0}
+                    onChange={(e) => setAddWork(e.target.value)}
+                    className="border border-gray-300 rounded p-1"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="addDifficulty">Difficulté</label>
+                  <input
+                    type="text"
+                    id="addDifficulty"
+                    value={addDifficulty}
+                    onChange={(e) => setAddDifficulty(e.target.value)}
+                    className="border border-gray-300 rounded p-1"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="addImage">Image</label>
+                  <input
+                    type="text"
+                    id="addImage"
+                    value={addImage}
+                    onChange={(e) => setAddImage(e.target.value)}
+                    className="border border-gray-300 rounded p-1"
+                  />
+                </div>
+              
+                <div>
+                <label htmlFor="addIngredients">Ingredients</label>
+                <input
+                  type="text"
+                  id="addIngredients"
+                  value={addIngredients}
+                  onChange={(e) => setAddIngredients(e.target.value.split(","))}
+                  className="border border-gray-300 rounded p-1"
+                />
+              </div>
+              <div>
+                <label htmlFor="addTags">Tags</label>
+                <input
+                  type="text"
+                  id="addTags"
+                  value={addTags}
+                  onChange={(e) => setAddTags(e.target.value.split(","))}
+                  className="border border-gray-300 rounded p-1"
+                />
+              </div>
+              <div>
+                <label htmlFor="addTime">Temps</label>
+                <input
+                  type="text"
+                  id="addTime"
+                  value={addTime}
+                  onChange={(e) => setAddTime(e.target.value)}
+                  className="border border-gray-300 rounded p-1"
+                />
+              </div>
+              <div>
+                <label htmlFor="addInstruction">Instruction</label>
+                <input
+                  type="text"
+                  id="addInstruction"
+                  value={addInstruction}
+                  onChange={(e) => setAddInstruction(e.target.value)}
+                  className="border border-gray-300 rounded p-1"
+                />
+              </div>
+              <div>
+                <label htmlFor="addServings">Personnes</label>
+                <input
+                  type="text"
+                  id="addServings"
+                  value={addServings}
+                  onChange={(e) => setAddServings(e.target.value)}
+                  className="border border-gray-300 rounded p-1"
+                />
+              </div>
+              <div>
+                <label htmlFor="addPrice">Description</label>
+                <input 
+                  type="text"
+                  id="addDescription"
+                  value={addDescription} 
+                  onChange={(e) => setAddDescription(e.target.value)}
+                  className="border border-gray-300 rounded p-1"
+                />
+              </div>
+            </div>     
+            {recipeError && <div className="error text-red-400 mb-2">{recipeError}</div>}
+            <div className="w-86">
+              <button 
+                type="submit" 
+                className='bg-blue-500 text-white  px-3 py-1 rounded hover:bg-blue-700 transition duration-300'
+                >
+                  Valider
+                </button>
+              <button
+                type="button"
+                className='bg-red-500 text-white ml-4 px-3 py-1 rounded hover:bg-red-700 transition duration-300'
+                onClick={handleCancel}
+              >
+                Annuler
+              </button>
+            </div>           
+          </form>
+          :
+          <button onClick={showAdd} className='bg-green-500 text-white px-3 py-1 rounded hover:bg-green-700 transition duration-300 mt-4'>Ajouter</button>
+        }
+
+
         <table className="min-w-full mt-4 bg-white border border-gray-200 rounded-md shadow-md">
           <thead className='bg-gray-200'>
             <tr>
@@ -145,8 +385,8 @@ const handleCancel = () => {
               <th className="px-4 py-2 text-center">Ingrédients</th>
               <th className="px-4 py-2 text-center">Tags</th>
               <th className="px-4 py-2 text-center">Temps</th>
-              <th className="px-4 py-2 text-center">Description</th>
-              <th className="px-4 py-2 text-center">Proportion</th>
+              <th className="px-4 py-2 text-center">Instruction</th>
+              <th className="px-4 py-2 text-center">Personnes</th>
               <th className="px-4 py-2 text-center">Description</th>
               <th className="px-4 py-2 text-center">Actions</th>
             </tr>
@@ -264,8 +504,8 @@ const handleCancel = () => {
                       />
                   </td>
                   <td className="px-4 py-2 text-center">
-                      <button className='ml-4' onClick={() => handleUpdate(recipe.id)}>Enregistrer</button>
-                      <button className='ml-4' onClick={handleCancel}>Annuler</button>
+                      <button className=' bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700 transition duration-300' onClick={() => handleUpdate(recipe.id)}>Enregistrer</button>
+                      <button className='ml-2 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700 transition duration-300' onClick={handleCancel}>Annuler</button>
                   </td>
                 </>
                 :

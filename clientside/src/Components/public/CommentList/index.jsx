@@ -147,7 +147,7 @@ const AllComment = () => {
                         placeholder="Ajouter un commentaire ..."
                         required
                     ></textarea>
-                    <button className='bg-yellow-400 px-2 m-1 w-1/4  rounded-full font-semibold hover:scale-105 hover:bg-black hover:text-yellow-400' type="submit">Ajouter</button>
+                    <button className='bg-yellow-400 px-2 py-2 m-1 w-1/4  rounded-lg font-semibold hover:scale-105 hover:bg-black hover:text-yellow-400' type="submit">Ajouter</button>
                     </form>  
                 }
             </div>           

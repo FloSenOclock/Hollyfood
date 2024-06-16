@@ -102,7 +102,7 @@ const forgotPassword = async (req, res) => {
         
         const token = jwt.sign({ userId: user.id}, process.env.SECRET_TOKEN, { expiresIn: '1h' }); // On génère un token JWT avec une durée de validité de 1 heure.
 
-        const resetPasswordUrl = `http://localhost:5173/nouveau-mot-de-passe/${user.id}/${token}`;  // On définit l'URL de réinitialisation du mot de passe.
+        const resetPasswordUrl = `https://projet-hollyfood-front.onrender.com/nouveau-mot-de-passe/${user.id}/${token}`;  // On définit l'URL de réinitialisation du mot de passe.
 
         var transporter = nodemailer.createTransport({ // On crée un objet "transporter" pour envoyer l'email de réinitialisation du mot de passe.
             service: 'Gmail',

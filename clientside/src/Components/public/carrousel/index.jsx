@@ -7,6 +7,9 @@ import "slick-carousel/slick/slick-theme.css";
 
 const Carrousel = ({ recipes, slider }) => {
 
+       
+    
+
     const settings = {
         accessibility: true,
         arrows: false,
@@ -14,7 +17,7 @@ const Carrousel = ({ recipes, slider }) => {
         infinite: true,
         speed: 500,
         slidesToShow: 4,
-        slidesToScroll: 1,      
+        slidesToScroll: 1,    
         responsive: [
             {
                 breakpoint: 1280,
@@ -31,7 +34,7 @@ const Carrousel = ({ recipes, slider }) => {
             },
             {
                 breakpoint: 480,
-                settings: {
+                settings: {                    
                     slidesToShow: 1,
                     dots: false,
                 }
@@ -40,11 +43,11 @@ const Carrousel = ({ recipes, slider }) => {
     };
 
     return (
-        <div> 
+        <> 
             <Slider ref={slider} {...settings}>                 
                 {recipes.map((recipe) => (
-                    <Card
-                        key={recipe.id}
+                    <div key={recipe.id}>
+                    <Card                       
                         score={recipe.averageRating}
                         picture={recipe.picture}
                         name={recipe.name}
@@ -53,9 +56,10 @@ const Carrousel = ({ recipes, slider }) => {
                         slug={recipe.slug}
                         id={recipe.id}      
                     />
+                    </div>
                 ))}
             </Slider>
-        </div>
+        </>
     );
 };
 

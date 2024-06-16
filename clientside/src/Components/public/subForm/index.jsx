@@ -53,9 +53,7 @@ const Subform = () => {
                     if (!emailExists) {
                         // Les données du formulaire sont envoyé dans la base de donnée 
                         const data = await apiFetch('inscription', credentials, 'POST');
-                        console.log(data);
-                        // puis on se redirige vers la page connexion après l'inscription
-                        navigate('/connexion'); 
+                        if (data){ navigate('/connexion'); } 
 
                     // Sinon si l'email existe déja on indique un message d'alerte  
                     } else if (emailExists) {
@@ -78,7 +76,7 @@ const Subform = () => {
         <div>
             <form onSubmit={onSubmit}>
             {exist && <div className="error">Cette adresse email existe déjà</div>}
-                <div className='flex flex-col items-center mb-4'>
+                <div className='flex flex-col items-center mt-4 mb-4'>
                     <label htmlFor="name">Nom *</label>
                     <input className='bg-yellow-50 rounded-lg border-2 border-yellow-400 m-1 md:w-96 ' type="text" name="name" id="name" required value={credentials.name} onChange={onChange} />
                     {errors.name && <div className="error">{errors.name}</div>}

@@ -93,24 +93,23 @@ const getOneRecipe = async (req, res) => {
 
 const createRecipe = async (req, res) => {
   
-    // const userId = req.user.id
-    const {slug, name, quote, picture, instruction, total_time, servings, difficulty, score, work_id, user_id, Tags, Ingredients} = req.body
+    const userId = req.user.id
+    const {slug, name, description, picture, instruction, total_time, servings, difficulty, work_id, score, Tags, Ingredients} = req.body
 
     try {
-
          // Créer le commentaire
          const recipe = await Recipe.create({
                 slug: slug, 
                 name: name, 
-                description: quote, 
                 picture: picture, 
                 instruction: instruction, 
                 total_time: total_time, 
-                servings: servings, 
-                difficulty: difficulty, 
+                servings: servings,
+                description: description,  
+                difficulty: difficulty,
                 score: score,
                 work_id: work_id,
-                user_id: user_id,
+                user_id: userId,
             },
             {
                 include: [Ingredient],
@@ -120,17 +119,37 @@ const createRecipe = async (req, res) => {
             }
         );
 
-        if (Ingredients && Ingredients.length > 0) {
+        if (Ingredients) {
             await recipe.addIngredients(Ingredients);
         } 
 
-        if (Tags && Tags.length > 0) {
+        if (Tags) {
             await recipe.addTags(Tags);
         } 
 
+         // Récupérer la recette avec les détails de l'œuvre et des relations
+         const recipeWithDetails = await Recipe.findOne({
+            where: { id: recipe.id },
+            include: [
+                {
+                    model: Work,
+                    as: "work",
+                    attributes: ["title", "synopsis"]
+                },
+                {
+                    model: Ingredient,
+                    as: "Ingredients"
+                },
+                {
+                    model: Tag,
+                    as: "Tags"
+                }
+            ]
+        });
+
 
          // Retourner le commentaire créé
-         res.status(201).json({ recipe });
+         res.status(201).json({ recipe: recipeWithDetails  });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Une erreur est survenue lors de la création de la recette.' });
@@ -142,7 +161,7 @@ const updateRecipe = async (req, res) => {
     const { id } = req.params;
     console.log(id);
     // Appelle les propriétés de mon formulaire
-    const { slug, name, quote, picture, instruction, total_time, servings, difficulty, score, title, synopsis, Tags, Ingredients} = req.body;
+    const { slug, name, description, picture, instruction, total_time, servings, difficulty, score, title, synopsis, Tags, Ingredients} = req.body;
 
     const transaction = await sequelize.transaction();
 
@@ -175,7 +194,7 @@ const updateRecipe = async (req, res) => {
             await recipe.update({
                 slug: slug,
                 name: name,
-                description: quote,
+                description: description,
                 picture: picture,
                 instruction: instruction,
                 total_time: total_time,

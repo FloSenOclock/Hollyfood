@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from "react";
-import FavCarrousel from "../../../Components/public/favCarrousel";
 import apiFetch from "../../../Utils/apiFetch";
 import MyState from "../../../Components/public/MyContext";
 import { Link } from "react-router-dom";
@@ -113,6 +112,14 @@ const Profile = () => {
     }
   };
 
+  const handleCancelFirstname = () => {
+    setUpdateFirstname(false);
+}
+
+const handleCancelName = () => {
+  setUpdateName(false);
+}
+
   return (
     <main>
       <section className="flex flex-col  items-center mb-8 w-full ">
@@ -132,10 +139,14 @@ const Profile = () => {
                   required
                 />
                 <button
-                  className="my-4 bg-yellow-400 px-6 py-2 rounded-full font-semibold hover:scale-105 hover:bg-black hover:text-yellow-400"
+                  className="my-4 mr-2 bg-yellow-400 px-4 py-1 rounded-full font-semibold hover:scale-105 hover:bg-black hover:text-yellow-400"
                   onClick={handleValidate}
                 >
                   Valider
+                </button>
+                <button  className="my-4 bg-yellow-400 px-4 py-1 rounded-full font-semibold hover:scale-105 hover:bg-black hover:text-yellow-400" onClick={handleCancelName}
+                >
+                  Annuler
                 </button>
                 {nameError && <p>{nameError}</p>}
               </div>
@@ -172,10 +183,14 @@ const Profile = () => {
                   required
                 />
                 <button
-                  className="my-4 bg-yellow-400 px-6 py-2 rounded-full font-semibold hover:scale-105 hover:bg-black hover:text-yellow-400"
+                  className="my-4 mr-2 bg-yellow-400 px-4 py-1 rounded-full font-semibold hover:scale-105 hover:bg-black hover:text-yellow-400"
                   onClick={handleValidate}
                 >
                   Valider
+                </button>
+                <button  className="my-4 bg-yellow-400 px-4 py-1 rounded-full font-semibold hover:scale-105 hover:bg-black hover:text-yellow-400" onClick={handleCancelFirstname}
+                >
+                  Annuler
                 </button>
                 {firstnameError && <p>{firstnameError}</p>}
               </div>

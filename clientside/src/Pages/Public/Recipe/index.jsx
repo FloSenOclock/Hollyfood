@@ -67,8 +67,8 @@ const OneRecipe = () => {
   return (
     <main className='flex flex-col mb-2'>
       <h2 className="text-xl font-medium my-2 text-center uppercase">{recipe?.name}</h2>
-      <div className='sm:flex'>
-      <div className='touch-none text-center justify-center'>
+      <div className='lg:flex'>
+      <div className='touch-none text-center justify-center lg:w-3/6'>
         {isAuthenticated() ? (
           hasRated ? (
             <RatedBar score={rating} />
@@ -89,20 +89,41 @@ const OneRecipe = () => {
         ) : (
           <RatedBar score={rating} />
         )}
-          <img className='size-11/12 rounded-lg ml-4 shadow-lg shadow-slate-300 mb-4' src={recipe?.picture} alt="image de la recette" />
+        <div className='flex justify-center'>
+          <img className='size-max rounded-lg px-1 shadow-lg shadow-slate-300 mb-4' src={recipe?.picture} alt="image de la recette" />
+        </div>
       </div>
-      <section className='mx-2 text-center sm:mt-8'>
-        <p className='italic mb-2 md:mt-8 lg:mt-12 xl:mt-20 2xl:mt-32'><span className='font-medium'>Anecdote:  </span>{recipe?.description}</p>
-        <hr className='h-px my-8 bg-yellow-400 border-0' />
-        <p><span className='font-medium'>Temps de préparation:  </span> {recipe?.total_time}</p>
-        <div>
+      <section className='mx-2 lg:w-3/6 text-center items-center justify-center lg:mt-8'>
+        <p className='italic mb-2'><span className='font-medium'>Description:  </span>{recipe?.description}</p>
+        <div className='flex flex-col lg:flex-row justify-center items-center my-4'>
+        {recipe?.work?.picture ? (
+        <img
+          className="size-3/12 rounded-lg shadow-lg shadow-slate-300"
+          src={recipe.work.picture}
+          alt="photo de l'oeuvre"
+        />
+      ) : null}
+      {recipe?.work?.quote ? (
+        <p className='italic mb-2 '><span className='font-medium'>Citation: </span>{recipe?.work?.quote}</p>)
+        : null}
+      
+        </div>
+        <h3 className='font-bold mb-2'>Titre: {recipe?.work?.title}</h3>
+        <p className='italic mb-2 '><span className='font-medium'>Synopsis: </span>{recipe?.work?.synopsis}</p>
+        <hr className='h-px lg:h-0.5 items-end bg-yellow-400 border-0' />
+        
+      </section> 
+         
+      </div>
+      <section className='mx-2 text-center lg:mt-8'>
+      <div className='flex flex-col justify-center items-center'>
+      <hr className='h-px lg:h-0.5 my-4 bg-yellow-400 border-0 w-60'  />
+          <p><span className='font-medium'>Temps de préparation:  </span> {recipe?.total_time}</p>
           <p><span className='font-medium'>Nombre de personnes:</span> {recipe?.servings}</p>
           <div><span className='font-medium'>Difficulté : </span><span className="bg-gradient-to-r from-yellow-400 via-yellow-100 to-yellow-400 px-2 ">{recipe?.difficulty} </span></div>
-        </div>
-      </section>    
+        <hr className='h-px lg:h-0.5 my-4 bg-yellow-400 border-0 w-60'  />
       </div>
-      <section className='mx-2 text-center sm:mt-8'>
-        <div className='text-start my-2' >
+        <div className='text-start m-2' >
           <h3 className='font-medium mb-2'>Liste des ingrédients :</h3>
           <ul>
             {recipe?.Ingredients?.map((ingredient, index) => (
@@ -113,7 +134,7 @@ const OneRecipe = () => {
           </ul>
         </div>
       </section>
-      <section className='mx-2'>
+      <section className='m-2'>
         <h3 className='font-medium mb-2' >Instructions :</h3>
         <div>    {recipe?.instruction?.split(/(?=\d+-)/).map((instr, index) => (
         <p key={index}>{instr}</p>
@@ -121,11 +142,11 @@ const OneRecipe = () => {
         <hr className='h-px my-8 bg-yellow-400 border-0' />
         <div className='text-center my-4'><FavButton recipeId={recipe.id}/></div>
       </section>
-      <section className='text-center'>      
+      <section className='text-center'>
         {/* Ici s'affichent les commentaires de la recette */}
         <h3 className='font-medium mb-2'>Commentaires : </h3>
         <AllComment/>
-        </section>  
+        </section>
       <section className='text-center'>
          {/* Ici s'affichent les partages de réseaux sociaux */}
         <div className='flex justify-center my-8'>

@@ -46,8 +46,11 @@ useEffect(() => { // On utilise un hook useEffect pour indiqué que a chaque cha
     return (
         <form  className="flex" onSubmit={handleSubmit} >
             <label htmlFor=""></label>
-            <input className='rounded-lg md:px-10 lg:px-28 lg:ml-40' type="search" name="search" id="search" placeholder="Recherche par Films, Séries,..."  value={value} onChange={handleChange}/>
-            <button className='hidden lg:block' type="submit">Rechercher</button>
+            <input className='rounded-lg text-black md:px-10 lg:px-28 lg:ml-20' type="search" name="search" id="search" placeholder="Recherche par Films, Séries,..."  value={value} onChange={handleChange}/>
+            <button className='hidden hover:text-yellow-400  lg:block' type="submit"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+            </button>
         </form>
         )
 };

@@ -9,8 +9,8 @@ const Pagination = ({ pageCount, handlePageClick }) => {
       breakLabel={'...'}
       breakClassName={'break-me'}
       pageCount={pageCount}
-      marginPagesDisplayed={2}
-      pageRangeDisplayed={5}
+      marginPagesDisplayed={1}
+      pageRangeDisplayed={1}
       onPageChange={handlePageClick}
       containerClassName={'flex items-center mt-4'}
       pageClassName={'mx-1 px-3 py-2  rounded-full bg-yellow-400 text-black'}
