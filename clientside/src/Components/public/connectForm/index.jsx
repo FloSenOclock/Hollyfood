@@ -54,13 +54,13 @@ const onSubmit = async (e) => {  // fonction asynchrone pour envoyer les donnée
 
 return (
     <div>
-        <form onSubmit={onSubmit}>
-            <div>
+        <form  onSubmit={onSubmit}>
+            <div className='flex flex-col items-center'>
                 <label htmlFor="email">E-mail</label>
                 <input className='bg-yellow-50 rounded-lg border-2 border-yellow-400' type="email" name="email" id="email" required value={credentials.email} onChange={onChange}/>
      
             </div>
-            <div className='mr-12'>
+            <div className='flex flex-col items-center'>
                 <label htmlFor="password">Mot de passe</label>
                 <input className='bg-yellow-50 rounded-lg border-2 border-yellow-400' type="password" name="password" id="password" required value={credentials.password} onChange={onChange}/>
             </div>

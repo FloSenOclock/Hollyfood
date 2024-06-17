@@ -15,7 +15,7 @@ const apiFetch = async (path, body = {}, method = 'GET') => {
   }
 
 
-  const response = await fetch( `http://localhost:3000/api/${path}`, options); // Envoyer : la requête à l'API http://localhost:3000/api/${path} ou https://projet-hollyfood-fphz.onrender.com/api/${path}
+  const response = await fetch( `https://projet-hollyfood-fphz.onrender.com/api/${path}`, options); // Envoyer : la requête à l'API http://localhost:3000/api/${path} ou https://projet-hollyfood-fphz.onrender.com/api/${path}
 
 
 

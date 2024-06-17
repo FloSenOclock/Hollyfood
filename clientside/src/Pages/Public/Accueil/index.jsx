@@ -44,6 +44,7 @@ const Home = () => {
           <div className="flex justify-center mt-14">
             <div className="mx-2">
               <button
+              aria-label="afficher les recettes précédentes"
                 className="bg-yellow-400 rounded-full hover:scale-110 p-1 shadow-lg shadow-yellow-600"
                 onClick={() => slider?.current?.slickPrev()}
               >
@@ -59,6 +60,7 @@ const Home = () => {
             </div>
             <div className="mx-2">
               <button
+              aria-label="afficher les recettes suivantes"
                 className="bg-yellow-400 rounded-full hover:scale-110 p-1 shadow-lg shadow-yellow-600"
                 onClick={() => slider?.current?.slickNext()}
               >
@@ -82,6 +84,7 @@ const Home = () => {
           <div className="flex justify-center my-10">
             <div className="mx-2">
               <button
+              aria-label="afficher les recettes précédentes"
                 className="bg-yellow-400 rounded-full hover:scale-110 p-1 shadow-lg shadow-yellow-600"
                 onClick={() => slider2?.current?.slickPrev()}
               >
@@ -97,6 +100,7 @@ const Home = () => {
             </div>
             <div className="mx-2">
               <button
+              aria-label="afficher les recettes suivantes"
                 className="bg-yellow-400 rounded-full hover:scale-110 p-1 shadow-lg shadow-yellow-600"
                 onClick={() => slider2?.current?.slickNext()}
               >

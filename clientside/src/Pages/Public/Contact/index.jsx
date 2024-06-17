@@ -18,7 +18,7 @@ const Contact = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         {
-            alert(`Thank you for your message from ${editContact.email}`);
+            alert(`Merci pour votre message ${editContact.email}`);
             const templateId = 'template_xsvtu9c';
             const serviceID = 'hollyfood';
             sendFeedback(serviceID, templateId, { from_name: editContact.name, message: editContact.content, title: editContact.title, reply_to: editContact.email })

@@ -19,7 +19,7 @@ const Card = ({ score, picture, name, difficulty, slug, workTitle, id }) => {
         </Link>
       </article>
       <article className="ml-1">
-        <h2 className="mt-2 font-medium text-xl">{name.length > 25 ? name.substring(0, 24) + '...' : name}</h2>
+          <h2 className="mt-2 font-medium text-xl">{name.length > 25 ? name.substring(0, 24) + '...' : name}</h2>
         <div className="pt-2 mt-2">
           <h2 className="font-extrabold text-xl ">{workTitle.length > 25 ? name.substring(0, 24) + '...' : workTitle}</h2>
         </div>

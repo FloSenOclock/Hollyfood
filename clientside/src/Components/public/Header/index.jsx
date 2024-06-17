@@ -75,7 +75,7 @@ const Header = () => {
         <div className=" mt-4 flex flex-row ">
           {token ? (
             <div className="flex flex-col items-center gap-2 ">
-              <Link to="/profil">
+              <Link to="/profil" aria-label="lien vers la page profil">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -91,6 +91,7 @@ const Header = () => {
               </Link>
               <Link
                 className="mx-1 sm:mx-3 font-semibold hover:text-yellow-400"
+                aria-label="lien pour se déconnecter"
                 onClick={handleDeconnexion}
               >
                 Déconnexion
@@ -98,7 +99,7 @@ const Header = () => {
             </div>
           ) : (
             <div className="flex flex-col items-center gap-2 ">
-              <Link to="/connexion">
+              <Link to="/connexion" aria-label="lien vers la page de connexion">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -115,6 +116,7 @@ const Header = () => {
               <Link
                 className="mx-1 sm:mx-3 font-semibold hover:text-yellow-400"
                 to="/inscription"
+                aria-label="lien vers la page d'inscription"
               >
                 Inscription
               </Link>
